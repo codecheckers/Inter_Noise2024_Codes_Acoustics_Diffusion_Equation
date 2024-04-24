@@ -1,4 +1,4 @@
-## Diffusion Equation Software for Room Acoustics Modeling
+## Diffusion Equation Software for Room Acoustics Modeling & Mathematical Optimization
 The software implementation is part of an ongoing research in the Building Acoustics Group at the Built Environment Department of Eindhoven University of Technology.
 The software is currectly **UNDER DEVELOPMENT** and it is being implemented by Ilaria Fichera in Python language.
 
