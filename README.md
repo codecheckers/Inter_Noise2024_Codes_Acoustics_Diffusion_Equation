@@ -40,7 +40,7 @@ The results from the simulation with the diffusion equation with constant diffus
 ### Workflow for correctly running the software
 
 1. Decide which room to simulate. For example let's consider for this tutorial the room 39x3x3 $m^3$ with Source S1.5m,1.5m,1.5m and Receiver R8m,1.5m,1.5m.
-2. If you want to simulate the room 39x3x3 $m^3$ with Source S1.5m,1.5m,1.5m and Receiver R8m,1.5m,1.5m, you need to make sure that the local folder `results`rad`imp` has the Radiosity method results file of the room you are simulating. The Radiosity method results files are pre-prepared as the reference results and they are stored in each room result folder.
+2. If you want to simulate the room 39x3x3 $m^3$ with Source S1.5m,1.5m,1.5m and Receiver R8m,1.5m,1.5m, you need to make sure that the local folder `results_rad_imp` has the Radiosity method results file of the room you are simulating. The Radiosity method results files are pre-prepared as the reference results and they are stored in each room result folder.
 3. Go to the `Results/NPR39x3x3-S1.5,1.5,1.5-Rx,1.5,1.5` and copy the `results_rad_imp` folder and paste it in the `C:\....\Inter Noise2024 Codes Acoustics Diffusion Equation` folder.
 4. Open the first python script `1-DiffEq3D.py`.
 5. In the "INPUT VARIABLE" section of the script, enter the length (x-axis), width (y-axis), heigth (z-axis) of the room you want to simulate, the source position coordinates and the receiver position coordinates in meters.
@@ -51,8 +51,8 @@ The results from the simulation with the diffusion equation with constant diffus
 The optimization simulation is difficult to quantify as it depends on how much different are the SPL curve over the distance between the radiosity method and the diffusion equation method. It will run until 100% as many times as the quantity C2, C1, and C0 will need to be optimised to minimise the difference between the two curves.
 10. Open the fourth python script `4-DiffEq3DWithNewDx.py` and press run. The results will be saved in the local folder `results_diff_opt`.
 11. Once you have all the results, you can create figures and reproduce the same figures as per Conference paper.
-12. Open the matlab file `A ComparisonRadiosityDiffusionAfterOpt.m` and run. It should give the same figures as per the conference paper for the specific room you have simulated.
-13. Open the matlab file `B ComparisonDx` and run. This will give you the results of comparison between diffusion coefficients of different rooms.
+12. Open the matlab file `A_ComparisonRadiosityDiffusionAfterOpt.m` and run. It should give the same figures as per the conference paper for the specific room you have simulated.
+13. Open the matlab file `B_ComparisonDx` and run. This will give you the results of comparison between diffusion coefficients of different rooms.
 
 If some error occurs it might mean that the results on the local folders `results_diff_imp`, `results_diff_opt` and `results_rad_imp` are of different rooms and therefore there are problems with length of vectors and arrays.
 
@@ -66,9 +66,9 @@ If some error occurs it might mean that the results on the local folders `result
 
 + File `4-DiffEq3DWithNewDx.py` is similar to the first file and it can calculate all the acoustics parameters of the room in question. However, in this case, the diffusion coefficient used in the calculation is optimised and is x-axis spatially dependent. The script incorporates the fact that the diffusion coefficient is now a vector compared to previously when it was only a constant variable. For the Conference paper, the interesting parameter is the Sound Pressure Level (SPL) over the distance x with the x-axis spatially dependent diffusion coefficient.
 
-+ File `A ComparisonRadiosityDiffusionAfterOpt.m` creates the figure using the results file from the generic local folders `results diff`, `results rad` and `results_diff_optimised` for the specific room simulated. It creates Figure 1, Figure 2 , Figure 3, Figure 4 , Figure 5 and Figure 7 of the conference paper.
++ File `A_ComparisonRadiosityDiffusionAfterOpt.m` creates the figure using the results file from the generic local folders `results_diff_imp`, `results_rad_imp` and `results_diff_opt` for the specific room simulated. It creates Figure 1, Figure 2 , Figure 3, Figure 4 , Figure 5 and Figure 7 of the conference paper.
 
-+ File `B ComparisonDx.m` creates the figure using results file from different rooms. It compares the x-axis spatially dependent diffusion coefficients between rooms. It creates Figure 6 and Figure 8 of the conference paper.
++ File `B_ComparisonDx.m` creates the figure using results file from different rooms. It compares the x-axis spatially dependent diffusion coefficients between rooms. It creates Figure 6 and Figure 8 of the conference paper.
 
 For all the scripts, there are some associated functions (these should not be modified):
 + `FunctionRT.py` calculates the reverberation time of the room in question
@@ -85,4 +85,4 @@ Software is being developed by Ilaria Fichera at Eindhoven University of Technol
 References are listed in the Internoise Conference Paper.
 
 ## License
-Diffusion Code is licensed under GNU General Public License v2.0. See LICENSE.md for more details.
+Diffusion Equation Code and Optimization Code are licensed under GNU General Public License v2.0. See LICENSE.md for more details.
