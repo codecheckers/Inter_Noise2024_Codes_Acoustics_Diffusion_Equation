@@ -318,6 +318,8 @@ def calculate_energy_density_diffusion(k,length,width,height,x_source,y_source,z
     w_rec = np.arange(0,recording_time,dt) #energy density at the receiver
     w_rec_all = np.zeros((1,len(x))) 
     
+    curPercent = 0
+    
     #Computing w;
     for steps in range(0, recording_steps):
         #Compute w at inner mesh points
@@ -485,7 +487,11 @@ def calculate_energy_density_diffusion(k,length,width,height,x_source,y_source,z
             s[row_up_s, col_up_s, dep_up_s] = source1[0] * (weight_row_up_s * weight_col_up_s * weight_dep_up_s)
         
         
-        print(time_steps)
+        percentDone = round(100*time_steps/recording_time);
+        if (percentDone > curPercent):
+            print(str(curPercent + 1) + "% done")
+            curPercent += 1;
+            #print(time_steps)
     
     plt.show()
     

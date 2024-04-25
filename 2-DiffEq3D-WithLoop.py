@@ -42,19 +42,19 @@ c0= 343 #adiabatic speed of sound [m.s^-1]
 m_atm = 0 #air absorption coefficient [1/m] from Billon 2008 paper and Navarro paper 2012
 
 #Room dimensions
-length = 10 #point x finish at the length of the room in the x direction [m] %Length
-width = 10 #point y finish at the length of the room in the y direction [m] %Width
-height = 10 #point z finish at the length of the room in the x direction [m] %Height
+length = np.load('results_diff_imp/length.npy') #point x finish at the length of the room in the x direction [m] %Length
+width = np.load('results_diff_imp/width.npy') #point y finish at the length of the room in the y direction [m] %Width
+height = np.load('results_diff_imp/height.npy') #point z finish at the length of the room in the x direction [m] %Height
 
 # Source position
-x_source = 5  #position of the source in the x direction [m]
-y_source = 5  #position of the source in the y direction [m]
-z_source = 5  #position of the source in the z direction [m]
+x_source = np.load('results_diff_imp/x_source.npy')  #position of the source in the x direction [m]
+y_source = np.load('results_diff_imp/y_source.npy')  #position of the source in the y direction [m]
+z_source = np.load('results_diff_imp/z_source.npy')  #position of the source in the z direction [m]
 
 # Receiver position
-x_rec = 2.5 #position of the receiver in the x direction [m]
-y_rec = 2.5 #position of the receiver in the y direction [m]
-z_rec = 2.5 #position of the receiver in the z direction [m]
+x_rec = np.load('results_diff_imp/x_rec.npy') #position of the receiver in the x direction [m]
+y_rec = np.load('results_diff_imp/y_rec.npy') #position of the receiver in the y direction [m]
+z_rec = np.load('results_diff_imp/z_rec.npy') #position of the receiver in the z direction [m]
 
 #Spatial discretization
 dx = 0.5 #distance between grid points x direction [m] #See Documentation for more insight about dt and dx
@@ -326,8 +326,10 @@ w_rec_x_2l = np.zeros((len(x)))
 w_rec_x_t0 = np.zeros((len(x)))
 t30_x = np.zeros((len(x)))
 
+curPercent = 0
+
 for ix in range(len(x)): 
-    print(ix)
+    #print(ix)
     
     coord_receiver_x = [x[ix],y_rec,z_rec] #coordinates of the receiver position in an list
     
@@ -455,7 +457,9 @@ for ix in range(len(x)):
             s[row_up_s, col_up_s, dep_lr_s] = source1[0] * (weight_row_up_s * weight_col_up_s * weight_dep_lr_s)
             s[row_up_s, col_up_s, dep_up_s] = source1[0] * (weight_row_up_s * weight_col_up_s * weight_dep_up_s)
         
-        print(time_steps)
+        #print(time_steps)
+    
+    #print(ix)
     
     idx_w_rec_ix = np.where(t == sourceon_time)[0][0] #index at which the t array is equal to the sourceon_time; I want the RT to calculate from when the source stops.
     
@@ -474,6 +478,12 @@ for ix in range(len(x)):
         w_rec_x_t0[ix] = w_rec_ix[t0_steps]-(Ws/(4*math.pi*Dx*dist_ixs))
     
     t30_x[ix] = t30
+    
+    percentDone = round(100*(ix/len(x)));
+    if (percentDone > curPercent):
+        curPercent = percentDone
+        print(str(curPercent + 1) + "% done")
+        curPercent += 1;
 
 plt.show()
 
@@ -564,7 +574,7 @@ elapsed_time = et - st
 #FIGURES & POST-PROCESSING
 ###############################################################################
 
-if tcalc == "decay":
+#if tcalc == "decay":
     # #Figure 5: Decay of SPL in the recording_time
     # plt.figure(5)
     # plt.plot(t, spl_r)  # plot sound pressure level with Pref = (2e-5)**5
@@ -587,15 +597,15 @@ if tcalc == "decay":
     # plt.xticks(np.arange(0, recording_time +0.1, 0.1))
     # plt.yticks(np.arange(0, -60, -10))
     
-    #Figure 7: Energy density at the receiver over time
-    plt.figure(7)
-    plt.plot(t,w_rec)
-    plt.title("Figure 7: Energy density over time at the receiver")
-    plt.xlabel("t [s]")
-    plt.ylabel("Energy density [kg m^-1 s^-2]")
-    plt.xlim()
-    plt.ylim()
-    plt.xticks(np.arange(0, recording_time +0.1, 0.1))
+    # #Figure 7: Energy density at the receiver over time
+    # plt.figure(7)
+    # plt.plot(t,w_rec)
+    # plt.title("Figure 7: Energy density over time at the receiver")
+    # plt.xlabel("t [s]")
+    # plt.ylabel("Energy density [kg m^-1 s^-2]")
+    # plt.xlim()
+    # plt.ylim()
+    # plt.xticks(np.arange(0, recording_time +0.1, 0.1))
     
     # #Figure 8: Schroeder decay
     # plt.figure(8)
@@ -607,35 +617,35 @@ if tcalc == "decay":
     # plt.ylim()
     # #plt.xticks(np.arange(t, recording_time +0.1, 0.1))
     
-    #Figure 9: 2D image of the energy density in the room
-    w_new_2d = w_new[:,:,dep_up_r] #The 3D w_new array is slised at the the desired z level
-    plt.figure(9)
-    plt.imshow(w_new_2d, origin='lower', extent=[x[0], x[-1], y[0], y[-1]], aspect='equal') #plot with the extent being the room dimension x and y 
-    plt.colorbar(label='Energy Density [kg/ms^2]')
-    plt.xlabel('X [m]')
-    plt.ylabel('Y [m]')
-    plt.title('Figure 9: Energy Density at Z = z_rec and t = recording_time')
-    plt.show()
+    # #Figure 9: 2D image of the energy density in the room
+    # w_new_2d = w_new[:,:,dep_up_r] #The 3D w_new array is slised at the the desired z level
+    # plt.figure(9)
+    # plt.imshow(w_new_2d, origin='lower', extent=[x[0], x[-1], y[0], y[-1]], aspect='equal') #plot with the extent being the room dimension x and y 
+    # plt.colorbar(label='Energy Density [kg/ms^2]')
+    # plt.xlabel('X [m]')
+    # plt.ylabel('Y [m]')
+    # plt.title('Figure 9: Energy Density at Z = z_rec and t = recording_time')
+    # plt.show()
     
-    #Figure 10: 2D image of the SDL in the room
-    sdl_2d = sdl[:,:,dep_up_r] #The 3D w_new array is slised at the the desired z level
-    plt.figure(10)
-    plt.imshow(sdl_2d, origin='lower', extent=[x[0], x[-1], y[0], y[-1]], aspect='equal') #plot with the extent being the room dimension x and y 
-    plt.colorbar(label='Sound Density Level [dB]')
-    plt.xlabel('X [m]')
-    plt.ylabel('Y [m]')
-    plt.title('Figure 10: Sound Density level at Z = z_rec and t = recording_time')
-    plt.show()
+    # #Figure 10: 2D image of the SDL in the room
+    # sdl_2d = sdl[:,:,dep_up_r] #The 3D w_new array is slised at the the desired z level
+    # plt.figure(10)
+    # plt.imshow(sdl_2d, origin='lower', extent=[x[0], x[-1], y[0], y[-1]], aspect='equal') #plot with the extent being the room dimension x and y 
+    # plt.colorbar(label='Sound Density Level [dB]')
+    # plt.xlabel('X [m]')
+    # plt.ylabel('Y [m]')
+    # plt.title('Figure 10: Sound Density level at Z = z_rec and t = recording_time')
+    # plt.show()
     
-    #Figure 11: 2D image of the SPL in the room
-    spl_2d = spl[:,:,dep_up_r] #The 3D w_new array is slised at the the desired z level
-    plt.figure(11)
-    plt.imshow(spl_2d, origin='lower', extent=[x[0], x[-1], y[0], y[-1]], aspect='equal') #plot with the extent being the room dimension x and y 
-    plt.colorbar(label='Sound Pressure Level [dB]')
-    plt.xlabel('X [m]')
-    plt.ylabel('Y [m]')
-    plt.title('Figure 11: Sound Pressure level at Z = z_rec and t = recording_time')
-    plt.show()
+    # #Figure 11: 2D image of the SPL in the room
+    # spl_2d = spl[:,:,dep_up_r] #The 3D w_new array is slised at the the desired z level
+    # plt.figure(11)
+    # plt.imshow(spl_2d, origin='lower', extent=[x[0], x[-1], y[0], y[-1]], aspect='equal') #plot with the extent being the room dimension x and y 
+    # plt.colorbar(label='Sound Pressure Level [dB]')
+    # plt.xlabel('X [m]')
+    # plt.ylabel('Y [m]')
+    # plt.title('Figure 11: Sound Pressure level at Z = z_rec and t = recording_time')
+    # plt.show()
     
     # #Figure 12: Energy density at t=recording_time over the space x.
     # plt.figure(12)
@@ -672,19 +682,19 @@ if tcalc == "decay":
     # plt.ylabel('$\mathrm{SPL \ [dB]}$')
     # plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$')    
     
-    #Figure 17: Energy density at t=2*mean_free over the space x.
-    plt.figure(17)
-    plt.title("Figure 17: Energy density over the x axis at t=2*mean_free_time")
-    plt.plot(x,w_rec_x_2l)
-    plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
+    # #Figure 17: Energy density at t=2*mean_free over the space x.
+    # plt.figure(17)
+    # plt.title("Figure 17: Energy density over the x axis at t=2*mean_free_time")
+    # plt.plot(x,w_rec_x_2l)
+    # plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
+    # plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
     
-    #Figure 18: SPL at  t=2*mean_free over the space x. reverb sound only
-    plt.figure(18)
-    plt.title("Figure 18: SPL REVERB over the x axis at t=2*mean_free")
-    plt.plot(x,spl_rec_x_2l)
-    plt.ylabel('$\mathrm{SPL \ [dB]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$')      
+    # #Figure 18: SPL at  t=2*mean_free over the space x. reverb sound only
+    # plt.figure(18)
+    # plt.title("Figure 18: SPL REVERB over the x axis at t=2*mean_free")
+    # plt.plot(x,spl_rec_x_2l)
+    # plt.ylabel('$\mathrm{SPL \ [dB]}$')
+    # plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$')      
     
     # #Figure 19: Energy density at t=3*mean_free over the space x.
     # plt.figure(19)
@@ -742,7 +752,7 @@ if tcalc == "decay":
     # plt.ylabel('$\mathrm{SPL \ [dB]}$')
     # plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
     
-if tcalc == "stationarysource":
+#if tcalc == "stationarysource":
 
     # #Figure 3: Decay of SPL in the recording_time at the receiver
     # plt.figure(3)
@@ -767,11 +777,11 @@ if tcalc == "stationarysource":
     # plt.yticks(np.arange(0, -60, -10))
 
     #Figure 5: Energy density over time at the receiver
-    plt.figure(5)
-    plt.title("Figure 5: Energy density over time at the receiver")
-    plt.plot(t,w_rec)
-    plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
-    plt.xlabel("t [s]")
+    # plt.figure(5)
+    # plt.title("Figure 5: Energy density over time at the receiver")
+    # plt.plot(t,w_rec)
+    # plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
+    # plt.xlabel("t [s]")
 
     # #Figure 6: Sound pressure level stationary over the space y.
     # plt.figure(6)

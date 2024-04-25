@@ -46,19 +46,19 @@ c0= 343 #adiabatic speed of sound [m.s^-1]
 m_atm = 0 #air absorption coefficient [1/m] from Billon 2008 paper and Navarro paper 2012
 
 #Room dimensions
-length = 10 #point x finish at the length of the room in the x direction [m] %Length
-width = 10 #point y finish at the length of the room in the y direction [m] %Width
-height = 10 #point z finish at the length of the room in the x direction [m] %Height
+length = 9 #point x finish at the length of the room in the x direction [m] %Length
+width = 3 #point y finish at the length of the room in the y direction [m] %Width
+height = 3 #point z finish at the length of the room in the x direction [m] %Height
 
 # Source position
-x_source = 5  #position of the source in the x direction [m]
-y_source = 5  #position of the source in the y direction [m]
-z_source = 5  #position of the source in the z direction [m]
+x_source = 1.5  #position of the source in the x direction [m]
+y_source = 1.5  #position of the source in the y direction [m]
+z_source = 1.5  #position of the source in the z direction [m]
 
 # Receiver position
-x_rec = 2.5 #position of the receiver in the x direction [m]
-y_rec = 2.5 #position of the receiver in the y direction [m]
-z_rec = 2.5 #position of the receiver in the z direction [m]
+x_rec = 8 #position of the receiver in the x direction [m]
+y_rec = 1.5 #position of the receiver in the y direction [m]
+z_rec = 1.5 #position of the receiver in the z direction [m]
 
 #Spatial discretization
 dx = 0.5 #distance between grid points x direction [m] #See Documentation for more insight about dt and dx
@@ -332,6 +332,8 @@ w_old = w #w_old at n-1 level
 w_rec = np.arange(0,recording_time,dt) #energy density at the receiver
 w_rec_all = np.zeros((1,len(x))) 
 
+curPercent = 0
+
 #Computing w;
 for steps in range(0, recording_steps):
     #Compute w at inner mesh points
@@ -499,7 +501,11 @@ for steps in range(0, recording_steps):
         s[row_up_s, col_up_s, dep_up_s] = source1[0] * (weight_row_up_s * weight_col_up_s * weight_dep_up_s)
     
     
-    print(time_steps)
+    #print(time_steps)
+    percentDone = round(100*time_steps/recording_time);
+    if (percentDone > curPercent):
+        print(str(curPercent + 1) + "% done")
+        curPercent += 1;
 
 plt.show()
 
