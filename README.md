@@ -52,8 +52,8 @@ The results from the simulation with the diffusion equation with constant diffus
 
 ### Workflow for correctly running the software
 
-1. Decide which room to simulate. For example let's consider for this tutorial the room 39x3x3 m^3 with Source S1.5,1.5,1.5 and Receiver R8,1.5,1.5.
-2. If you want to simulate the room 39x3x3 m^3 with Source S1.5,1.5,1.5 and Receiver R8,1.5,1.5, you need to make sure that the local folder _results rad imp_ has the Radiosity method results file of the room you are simulating. The Radiosity method results files are pre-prepared as the reference results and they are stored in each room result folder.
+1. Decide which room to simulate. For example let's consider for this tutorial the room 39x3x3 $m^3$ with Source S1.5m,1.5m,1.5m and Receiver R8m,1.5m,1.5m.
+2. If you want to simulate the room 39x3x3 $m^3$ with Source S1.5m,1.5m,1.5m and Receiver R8m,1.5m,1.5m, you need to make sure that the local folder `results rad imp` has the Radiosity method results file of the room you are simulating. The Radiosity method results files are pre-prepared as the reference results and they are stored in each room result folder.
 3. Go to the _Results_/_NPR39x3x3-S1.5,1.5,1.5-Rx,1.5,1.5_ and copy the _results rad imp_ folder and paste it in the _C:\....\Inter Noise2024 Codes Acoustics Diffusion Equation_ folder.
 4. Open the first python script _1-DiffEq3D.py_.
 5. In the "INPUT VARIABLE" section of the script, enter the length (x-axis), width (y-axis), heigth (z-axis) of the room you want to simulate, the source position coordinates and the receiver position coordinates in meters.
