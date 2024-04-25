@@ -73,9 +73,9 @@ If some error occurs it might mean that the results on the local folders `result
 For all the scripts, there are some associated functions (these should not be modified):
 + `FunctionRT.py` calculates the reverberation time of the room in question
 + `FunctionEDT.py` calculates the early decay time of the room in question
-+ `FunctionClarity.py` calculates the clarity $C`{80}$ of the room in question based on Barron's revised theory formula.
-+ `FunctionDefinition.py` calculates the definition $D`{50}$ of the room in question based on Barron's revised theory formula.
-+ `FunctionCentreTime.py` calculates the centre time $T`s$ of the room in question based on Barron's revised theory formula.
++ `FunctionClarity.py` calculates the clarity $C_{80}$ of the room in question based on Barron's revised theory formula.
++ `FunctionDefinition.py` calculates the definition $D_{50}$ of the room in question based on Barron's revised theory formula.
++ `FunctionCentreTime.py` calculates the centre time $T_s$ of the room in question based on Barron's revised theory formula.
 + `DiffEq3DFunction.py` is the function used for the optimization.
 
 ## Authors
