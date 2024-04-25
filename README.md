@@ -65,6 +65,9 @@ The optimization simulation is difficult to quantify as it depends on how much d
 10. Open the fourth python script _4-DiffEq3DWithNewDx.py_ and press run. The results will be saved in the local folder _results diff opt_.
 11. Once you have all the results, you can create figures and reproduce the same figures as per Conference paper.
 12. Open the matlab file _A ComparisonRadiosityDiffusionAfterOpt.m_ and run. It should give the same figures as per the conference paper for the specific room you have simulated.
+13. Open the matlab file _B ComparisonDx_ and run. This will give you the results of comparison between diffusion coefficients of different rooms.
+
+If some error occurs it might mean that the results on the local folders _results diff imp_, _results diff opt_ and _results rad imp_ are of different rooms and therefore there are problems with length of vectors and arrays.
 
 ## Explanation of what each script calculates
 
