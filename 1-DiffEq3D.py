@@ -46,7 +46,7 @@ c0= 343 #adiabatic speed of sound [m.s^-1]
 m_atm = 0 #air absorption coefficient [1/m] from Billon 2008 paper and Navarro paper 2012
 
 #Room dimensions
-length = 9 #point x finish at the length of the room in the x direction [m] %Length
+length = 24 #point x finish at the length of the room in the x direction [m] %Length
 width = 3 #point y finish at the length of the room in the y direction [m] %Width
 height = 3 #point z finish at the length of the room in the x direction [m] %Height
 
@@ -56,7 +56,7 @@ y_source = 1.5  #position of the source in the y direction [m]
 z_source = 1.5  #position of the source in the z direction [m]
 
 # Receiver position
-x_rec = 8 #position of the receiver in the x direction [m]
+x_rec = 23 #position of the receiver in the x direction [m]
 y_rec = 1.5 #position of the receiver in the y direction [m]
 z_rec = 1.5 #position of the receiver in the z direction [m]
 
@@ -960,7 +960,7 @@ np.save('results_diff_imp\\spl_rec_x_t0',spl_rec_x_t0)
 np.save('results_diff_imp\\spl_stat_x_t0',spl_stat_x_t0)
 # np.save('results_diff_imp\\spl_stat_x_t0_nosource1',spl_stat_x_t0_nosource1)
 # np.save('results_diff_imp\\spl_stat_x_t0_nosource3',spl_stat_x_t0_nosource3)
-# np.save('results_diff_imp\\spl_rec_x_t0_correction',spl_rec_x_t0_correction)
+np.save('results_diff_imp\\spl_rec_x_t0_correction',spl_rec_x_t0_correction)
 # np.save('results_diff_imp\\spl_rec_x_t0_correction_nosource1',spl_rec_x_t0_correction_nosource1)
 np.save('results_diff_imp\\spl_rec_35dB',spl_rec_35dB)
 np.save('results_diff_imp\\D_th',D_th)

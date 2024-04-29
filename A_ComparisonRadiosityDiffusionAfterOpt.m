@@ -3,21 +3,63 @@
 %Comparison OVER AXIS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%Graphs before optimization of room 10x10x10
+x_source = readNPY('results_diff_imp\\x_source.npy');
+if x_source == 5
+    load("results_rad_imp\\SPL_t0_R.mat","SPL_t0_R")
+    load("results_rad_imp\\T30_x.mat","T30_x")
+    load("results_rad_imp\\x_axis_R.mat","x_axis")
+    SPL_t0_PY = readNPY('results_diff_imp\\spl_rec_x_t0_correction.npy');
+    T30_x_PY = readNPY('results_diff_imp\\t30_x.npy');
+    x_axis_PY = readNPY('results_diff_imp\\x_axis.npy');
 
+    f1 = figure(1);
+    plot(x_axis_PY, SPL_t0_R,"Color", "#000000",'LineWidth',0.5)
+    hold on
+    plot(x_axis_PY, SPL_t0_PY, "Color", "#000000", 'LineWidth',2)
+    set(gca,'fontsize',14)
+    %title('Radiosity and Diffusion SPL at t = 0*lambda','fontsize',12,'Interpreter','latex')
+    xlabel('x-axis (m)')%,'Interpreter','latex')
+    ylabel('SPL (dB)')%,'Interpreter','latex')
+    %legend('SPL_{rad}','SPL_{diff}')
+    %axis([0 x_axis(end) 95 105])
+    f1.Position = [500 500 340 250]; % Position (first two-values) and Size (last two-values)
+    xticks([x_axis_PY(1) 2 4 6 8 10])
+    yticks(87.4:0.1:88)
+    ylim([87.4 88])
+    hold off
+
+    f2 = figure(2);
+    plot(x_axis, T30_x, "Color", "#000000",'LineWidth',0.5)
+    hold on
+    plot(x_axis, T30_x_PY,"Color", "#000000",'LineWidth',2)
+    set(gca,'fontsize',14)
+    %title('Radiosity and Diffusion t30','fontsize',12,'Interpreter','latex')
+    xlabel('x-axis (m)')%,'Interpreter','latex')
+    ylabel('Reverberation time (s)')%,'Interpreter','latex')
+    %legend('t30_{rad}','t30_{diff}')
+    xticks([x_axis_PY(1) 2 4 6 8 10])
+    yticks(2.6:0.003:2.615)
+    ylim([2.6 2.615])
+    f2.Position = [500 500 340 250]; % Position (first two-values) and Size (last two-values)
+    hold off
+else
+
+%Graphs before and after optimization of all other rooms
 %Load Matlab
-load("results_rad\\SPL_t0_R.mat","SPL_t0_R")
-load("results_rad\\T30_x.mat","T30_x")
+load("results_rad_imp\\SPL_t0_R.mat","SPL_t0_R")
+load("results_rad_imp\\T30_x.mat","T30_x")
 
 %Load Python BEFORE
-SPL_t0_PY_before = readNPY('results_diff\\spl_rec_x_t0.npy');
-x_source = readNPY('results_diff\\x_source.npy');
-mean_free_path = readNPY('results_diff\\mean_free_path.npy');
-T30_x_PY = readNPY('results_diff\\t30_x.npy');
+SPL_t0_PY_before = readNPY('results_diff_imp\\spl_rec_x_t0.npy');
+x_source = readNPY('results_diff_imp\\x_source.npy');
+mean_free_path = readNPY('results_diff_imp\\mean_free_path.npy');
+T30_x_PY = readNPY('results_diff_imp\\t30_x.npy');
 
 %Load Python AFTER
-x_axis = readNPY('results_diff_optimised\\x_axis.npy');
-SPL_t0_PY_after = readNPY('results_diff_optimised\\spl_rec_x_t0.npy');
-Dx = readNPY('results_diff_optimised\\Dx.npy');
+x_axis = readNPY('results_diff_opt\\x_axis.npy');
+SPL_t0_PY_after = readNPY('results_diff_opt\\spl_rec_x_t0.npy');
+Dx = readNPY('results_diff_opt\\Dx.npy');
 
 acc = 0.5;
 mean_free_path_rounded = round(mean_free_path/acc)*acc;
@@ -159,4 +201,5 @@ else
     f4.Position = [500 500 340 250]; % Position (first two-values) and Size (last two-values)
     xlim([x_axis(1) x_axis(end)])
     xticks([x_axis(1) 5 10 15 20 25 30 35])
+end
 end
