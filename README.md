@@ -1,5 +1,5 @@
 ## Diffusion Equation Software for Room Acoustics Modeling & Mathematical Optimization
-The software implementation in this repository is used to simulate the rooms analysed in the Conference paper "Determination of a diffusion coefficient function for long rooms using a least square optimization approach" recently published for the Conference Internoise 2024 Nantes.
+The software implementation in this repository is used to simulate the rooms analysed in the Conference paper "Determination of a diffusion coefficient function for long rooms using a least square optimization approach" recently submitted and accepted for the Conference Internoise 2024 Nantes.
 
 The software implementation of the Acoustics Diffusion Equation is part of an ongoing research in the Building Acoustics Group at the Built Environment Department of Eindhoven University of Technology.
 The main software can be found in the GitHub Repository https://github.com/Building-acoustics-TU-Eindhoven/Diffusion and is currectly **UNDER DEVELOPMENT**. It is being implemented by Ilaria Fichera in Python programming language. The diffusion equation implementation of this repository is based on the numerical Finite Different Method (FDM) by Du Fort&Frankel (Navarro et al., 2012) from the main project repository https://github.com/Building-acoustics-TU-Eindhoven/Diffusion.
