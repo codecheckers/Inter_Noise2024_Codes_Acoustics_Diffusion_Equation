@@ -42,19 +42,19 @@ c0= 343 #adiabatic speed of sound [m.s^-1]
 m_atm = 0 #air absorption coefficient [1/m] from Billon 2008 paper and Navarro paper 2012
 
 #Room dimensions
-length = 9 #point x finish at the length of the room in the x direction [m] %Length
-width = 3 #point y finish at the length of the room in the y direction [m] %Width
-height = 3 #point z finish at the length of the room in the x direction [m] %Height
+length = np.load('results_diff_imp/length.npy') #point x finish at the length of the room in the x direction [m] %Length
+width = np.load('results_diff_imp/width.npy') #point y finish at the length of the room in the y direction [m] %Width
+height = np.load('results_diff_imp/height.npy') #point z finish at the length of the room in the x direction [m] %Height
 
 # Source position
-x_source = 1.5  #position of the source in the x direction [m]
-y_source = 1.5  #position of the source in the y direction [m]
-z_source = 1.5  #position of the source in the z direction [m]
+x_source = np.load('results_diff_imp/x_source.npy')  #position of the source in the x direction [m]
+y_source = np.load('results_diff_imp/y_source.npy')  #position of the source in the y direction [m]
+z_source = np.load('results_diff_imp/z_source.npy')  #position of the source in the z direction [m]
 
 # Receiver position
-x_rec = 8.0 #position of the receiver in the x direction [m]
-y_rec = 1.5 #position of the receiver in the y direction [m]
-z_rec = 1.5 #position of the receiver in the z direction [m]
+x_rec = np.load('results_diff_imp/x_rec.npy') #position of the receiver in the x direction [m]
+y_rec = np.load('results_diff_imp/y_rec.npy') #position of the receiver in the y direction [m]
+z_rec = np.load('results_diff_imp/z_rec.npy') #position of the receiver in the z direction [m]
 
 #Spatial discretization
 dx = 0.5 #distance between grid points x direction [m] #See Documentation for more insight about dt and dx

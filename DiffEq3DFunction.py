@@ -68,8 +68,6 @@ def calculate_energy_density_diffusion(k,length,width,height,x_source,y_source,z
     
     #Set initial condition - Source Info (interrupted method)
     Ws = 0.01 #Source point power [Watts] interrupted after "sourceon_time" seconds; 10^-2 W => correspondent to 100dB
-    sourceon_time =  1.2 #time that the source is ON before interrupting [s]
-    recording_time = 2.4 #total time recorded for the calculation [s]
     
     #%%
     ###############################################################################
@@ -82,10 +80,6 @@ def calculate_energy_density_diffusion(k,length,width,height,x_source,y_source,z
     
     #Frequency resolution & spatial parameters
     fsample = 1/dt #frequency spatial resolution (sampling period)
-    
-    #Time resolution
-    t = np.arange(0, recording_time, dt) #mesh point in time
-    recording_steps = ceil(recording_time/dt) #number of time steps to consider in the calculation
     
     #Room characteristics
     S1,S2 = length*width, length*width #xy planes
@@ -133,6 +127,13 @@ def calculate_energy_density_diffusion(k,length,width,height,x_source,y_source,z
     Eq_A = alpha_1*S1 + alpha_2*S2 + alpha_3*S3 + alpha_4*S4 + alpha_5*S5 + alpha_6*S6 #equivalent absorption area of the room
     
     RT_Sabine = 0.16*V/Eq_A
+    sourceon_time = round(RT_Sabine,1)#time that the source is ON before interrupting [s]
+    recording_time = 2*sourceon_time #total time recorded for the calculation [s]
+
+    #Time resolution
+    t = np.arange(0, recording_time, dt) #mesh point in time
+    recording_steps = ceil(recording_time/dt) #number of time steps to consider in the calculation
+
     t_35dB = round(35/60*RT_Sabine,4)
     idx_t35dB = np.argmin(np.abs(t - t_35dB))#[0][0] #index at which the t array is equal to the t_ at the decay of -35dB
     
