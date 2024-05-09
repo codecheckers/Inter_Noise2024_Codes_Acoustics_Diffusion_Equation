@@ -2,7 +2,7 @@
 The software implementation in this repository is used to simulate the rooms analysed in the Conference paper "Determination of a diffusion coefficient function for long rooms using a least square optimization approach" recently submitted and accepted for the Conference Internoise 2024 Nantes.
 
 The software implementation of the Acoustics Diffusion Equation is part of an ongoing research in the Building Acoustics Group at the Built Environment Department of Eindhoven University of Technology.
-The main software can be found in the [GitHub Repository] (https://github.com/Building-acoustics-TU-Eindhoven/Diffusion) and is currectly **UNDER DEVELOPMENT**. It is being implemented by Ilaria Fichera in Python programming language. The diffusion equation implementation of this repository is based on the numerical Finite Different Method (FDM) by Du Fort&Frankel (Navarro et al., 2012) from the main project [GitHub Repository] (https://github.com/Building-acoustics-TU-Eindhoven/Diffusion).
+The main software can be found in the [GitHub Repository](https://github.com/Building-acoustics-TU-Eindhoven/Diffusion) and is currectly **UNDER DEVELOPMENT**. It is being implemented by Ilaria Fichera in Python programming language. The diffusion equation implementation of this repository is based on the numerical Finite Different Method (FDM) by Du Fort&Frankel (Navarro et al., 2012) from the main project [GitHub Repository](https://github.com/Building-acoustics-TU-Eindhoven/Diffusion).
 The goal of the project is to specifically implement, develop and validate the diffusion equation modelling method for room acoustics purposes. Solving the diffusion equation allows to study the acoustics properties of a room and to obtain the distribution of acoustic energy over space and time in a specific room.
 
 ## Summary of the Internoise conference paper
@@ -22,7 +22,7 @@ To properly run the software, the following libraries are needed:
 - scipy
 - sys
 - time
-- [npy-matlab] (https://github.com/kwikteam/npy-matlab)
+- [npy-matlab](https://github.com/kwikteam/npy-matlab)
 
 ### Repository structure
 The repository consists on the following structure:
