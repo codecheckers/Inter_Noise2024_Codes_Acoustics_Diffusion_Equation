@@ -4,10 +4,9 @@ Created on Wed Aug 16 09:49:08 2023
 
 @author: 20225533
 """
-import scipy
 from scipy.optimize import least_squares
 import numpy as np
-from os.path import dirname, join as pjoin
+from os.path import join as pjoin
 import scipy.io as sio
 import matplotlib.pyplot as plt
 
@@ -79,7 +78,6 @@ result = least_squares(obj_fun, k, bounds=([0,0,D_th], [np.inf,np.inf,D_th+0.001
 
 optimal_D = result.x
 np.save('results_diff_opt\\optimal_D',optimal_D)
-#spl_rec_x_python, Dx = calculate_energy_density(optimal_D)
 
 plt.figure(20)
 plt.title("Figure 20: D and cost")

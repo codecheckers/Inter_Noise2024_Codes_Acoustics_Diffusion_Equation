@@ -2,7 +2,7 @@
 The software implementation in this repository is used to simulate the rooms analysed in the Conference paper "Determination of a diffusion coefficient function for long rooms using a least square optimization approach" recently submitted and accepted for the Conference Internoise 2024 Nantes.
 
 The software implementation of the Acoustics Diffusion Equation is part of an ongoing research in the Building Acoustics Group at the Built Environment Department of Eindhoven University of Technology.
-The main software can be found in the GitHub Repository https://github.com/Building-acoustics-TU-Eindhoven/Diffusion and is currectly **UNDER DEVELOPMENT**. It is being implemented by Ilaria Fichera in Python programming language. The diffusion equation implementation of this repository is based on the numerical Finite Different Method (FDM) by Du Fort&Frankel (Navarro et al., 2012) from the main project repository https://github.com/Building-acoustics-TU-Eindhoven/Diffusion.
+The main software can be found in the [GitHub Repository] (https://github.com/Building-acoustics-TU-Eindhoven/Diffusion) and is currectly **UNDER DEVELOPMENT**. It is being implemented by Ilaria Fichera in Python programming language. The diffusion equation implementation of this repository is based on the numerical Finite Different Method (FDM) by Du Fort&Frankel (Navarro et al., 2012) from the main project [GitHub Repository] (https://github.com/Building-acoustics-TU-Eindhoven/Diffusion).
 The goal of the project is to specifically implement, develop and validate the diffusion equation modelling method for room acoustics purposes. Solving the diffusion equation allows to study the acoustics properties of a room and to obtain the distribution of acoustic energy over space and time in a specific room.
 
 ## Summary of the Internoise conference paper
@@ -22,6 +22,7 @@ To properly run the software, the following libraries are needed:
 - scipy
 - sys
 - time
+- [npy-matlab] (https://github.com/kwikteam/npy-matlab)
 
 ### Repository structure
 The repository consists on the following structure:
@@ -43,7 +44,7 @@ The results from the simulation with the diffusion equation with constant diffus
 2. If you want to simulate the room 39x3x3 $m^3$ with Source S1.5m,1.5m,1.5m and Receiver R8m,1.5m,1.5m, you need to make sure that the local folder `results_rad_imp` has the Radiosity method results file of the room you are simulating. The Radiosity method results files are pre-prepared as the reference results and they are stored in each room result folder.
 3. Go to the `Results/NPR39x3x3-S1.5,1.5,1.5-Rx,1.5,1.5` and copy the `results_rad_imp` folder and paste it in the `C:\....\Inter Noise2024 Codes Acoustics Diffusion Equation` folder.
 4. Open the first python script `1-DiffEq3D.py`.
-5. In the "INPUT VARIABLE" section of the script, enter the length (x-axis), width (y-axis), heigth (z-axis) of the room you want to simulate, the source position coordinates and the receiver position coordinates in meters.
+5. In the "INPUT VARIABLE" section of the script, enter the length (x-axis), width (y-axis), heigth (z-axis) of the room you want to simulate, the source position coordinates (x_source, y_source, z_source) and the receiver position coordinates (y_rec, z_rec) in meters. For these specific simulations, the x-axis coordinate of the receiver is not important since the objective is to calculate all the acoustic variables on a line on the x-axis. 
 6. Press run. While running you will see printed the percentage of completion of calculation. Once arrived at 100%, some Figures will show and all the relevant results will be saved in the local folder `results_diff_imp`.
 7. Open the second python script `2-DiffEq3D-WithLoop.py`.
 8. If you have set up correctly the first script, you need to only press run. This script will calculate the reverberation time for each position x of the room and it will save the results in the local folder `results_diff_imp`.

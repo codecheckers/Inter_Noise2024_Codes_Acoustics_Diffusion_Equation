@@ -6,14 +6,8 @@ Created on Tue Feb 28 10:39:42 2023
 """
 #Code developed by Ilaria Fichera for the analysis of the FDM method Du Fort & Frankel solving the 3D diffusion equation with one intermittent omnidirectional sound source
 import math
-import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.integrate import simps
-from scipy import linalg
-import sys
-#uncomment this if you need drawnow
-#from drawnow import drawnow
 from math import ceil
 from math import log
 from FunctionRT import *
@@ -21,18 +15,7 @@ from FunctionEDT import *
 from FunctionClarity import *
 from FunctionDefinition import *
 from FunctionCentreTime import *
-from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.pyplot as plt
-from matplotlib import cm
-from matplotlib.ticker import LinearLocator
 import time as time
-from scipy import stats
-from scipy.interpolate import griddata
-from matplotlib.animation import FuncAnimation
-import shutil
-import os
-import scipy.io
-import dill
 
 st = time.time() #start time of calculation
 
@@ -269,13 +252,6 @@ dist_x = np.sqrt((((xx[:, col_lr_r, dep_lr_r]*(weight_row_lr_r * weight_col_lr_r
                                              (zz[row_up_r, col_up_r, dep_lr_r]*(weight_row_up_r * weight_col_up_r * weight_dep_lr_r))+\
                                                  (zz[row_up_r, col_up_r, dep_up_r]*(weight_row_up_r * weight_col_up_r * weight_dep_up_r))) - z_source)**2)
 
-
-# idx_dist1 = np.where(dist_x == 1)[0][1]
-
-# idx_dist_nomean = np.where(dist_x == round(mean_free_path))[0][0]
-
-# idx_dist3 = np.where(dist_x == 3)[0][0]
-
 #distance between source and each mesh point in the y direction  
 dist_y = np.sqrt((((xx[row_lr_r, col_lr_r, dep_lr_r]*(weight_row_lr_r * weight_col_lr_r * weight_dep_lr_r))+\
     (xx[row_lr_r, col_lr_r, dep_up_r]*(weight_row_lr_r * weight_col_lr_r * weight_dep_up_r))+\
@@ -301,24 +277,6 @@ dist_y = np.sqrt((((xx[row_lr_r, col_lr_r, dep_lr_r]*(weight_row_lr_r * weight_c
                                          (zz[row_up_r, col_lr_r, dep_up_r]*(weight_row_up_r * weight_col_lr_r * weight_dep_up_r))+\
                                              (zz[row_up_r, col_up_r, dep_lr_r]*(weight_row_up_r * weight_col_up_r * weight_dep_lr_r))+\
                                                  (zz[row_up_r, col_up_r, dep_up_r]*(weight_row_up_r * weight_col_up_r * weight_dep_up_r))) - z_source)**2)
-
-
-#Function to draw figure
-##def draw_fig():
-##    for i in range(w_new.shape[2]):
-##        print(i)
-##        plt.figure(2)
-##        plt.imshow(w_new[:, :, i], cmap='hot', vmin=w_new.min(), vmax=w_new.max())
-
-############################################################################
-#TRIAL 4D PLOT
-############################################################################
-#Initialize the figure and axes
-#if tcalc == "decay":
-#    plt.figure()
-#    ax = fig.add_subplot(111, projection='3d')
-#    plt.title("4D plot")
-#    ax.view_init(elev=30, azim=45) #Set the initial view angle
 
 #%%
 ###############################################################################
@@ -395,12 +353,6 @@ for steps in range(0, recording_steps):
     sdl = 10*np.log10(abs(w_new),where=abs(w_new)>0) #sound density level
     spl = 10*np.log10(((abs(w_new))*rho*(c0**2))/(pRef**2)) #,where=press_r>0, sound pressure level in the 3D space
     
-   #uncomment when activating the drawnow library   
-   #Visualization of the energy density changes while the calculation is progressing
-    ##if (steps % 100 == 0): #draw only on certain steps and not all the steps
-    ##    print("A")
-    ##    drawnow(draw_fig)
-    
     #Update w before next step
     w_old = w #The w at n step becomes the w at n-1 step
     w = w_new #The w at n+1 step becomes the w at n step
@@ -445,40 +397,6 @@ for steps in range(0, recording_steps):
         
     if steps == sourceon_steps + idx_t35dB:
         w_35dB = w_new
-    
-    #4D Visualization????
-    #Flatten the coordinates and w_new values for scatter plot
-    ##coords = np.column_stack([xx.ravel(), yy.ravel(), zz.ravel()])
-    ##w_new_flat = w_new.ravel()
-    
-    #Normalize the w_new values to [0, 1] range
-    ##norm = plt.Normalize(vmin=np.min(w_new_flat), vmax=np.max(w_new_flat))
-    ##colors = cm.jet(norm(w_new_flat))  # Use 'jet' colormap for a range of red to yellow colors
-    
-    #Update the scatter plot with the new w_new values
-    ##if steps == 0:
-    ##    scatter = ax.scatter(coords[:, 0], coords[:, 1], coords[:, 2], c=w_new_flat, cmap='hot')
-    ##else:
-    ##    scatter.set_array(w_new_flat)
-        
-    #Set a suitable title and labels
-    ##ax.set_title("Time Step: 'time_steps'")
-    ##ax.set_xlabel('X')
-    ##ax.set_ylabel('Y')
-    ##ax.set_zlabel('Z')
-
-    #Adjust the plot limits
-    ##ax.set_xlim(0, length)
-    ##ax.set_ylim(0, width)
-    ##ax.set_zlim(0, height)
-
-    #Add a colorbar and legend
-    ##cbar = fig.colorbar(scatter, ax=ax,fraction=0.04, pad=0.1)
-    ##cbar.set_label('Energy Density')
-    ##cbar.ax.yaxis.set_ticks_position('left')
-
-    #Pause to create an animated effect
-    ##plt.pause(0.01)  # Adjust the pause duration as needed
     
     #Updating the source term
     if tcalc == "decay":
@@ -613,21 +531,9 @@ w_rec_x_t0_correction = ((w_t0[:, col_lr_r, dep_lr_r]*(weight_row_lr_r * weight_
                                           (w_t0[:, col_up_r, dep_lr_r]*(weight_row_up_r * weight_col_up_r * weight_dep_lr_r))+\
                                               (w_t0[:, col_up_r, dep_up_r]*(weight_row_up_r * weight_col_up_r * weight_dep_up_r))-(Ws/(4*math.pi*Dx*dist_x)))
 
-#w_rec_x_t0 = np.where(dist_x == 0, w_rec_x_t0_no_term, w_rec_x_t0)
 spl_rec_x_t0 = 10*np.log10(rho*c0**2*w_rec_x_t0/pRef**2)
 
 spl_rec_x_t0_correction = 10*np.log10(rho*c0**2*w_rec_x_t0_correction/pRef**2)
-
-# spl_rec_x_t0_correction_nosource1 = spl_rec_x_t0_correction[idx_dist1:]
-
-# w_rec_x_t0_nosource1 = w_rec_x_t0[idx_dist1:]
-# spl_rec_x_t0_nosource1 = 10*np.log10(rho*c0**2*w_rec_x_t0_nosource1/pRef**2)
-# dist_from1 = dist_x[idx_dist1:]
-
-
-# w_rec_x_t0_nosource3 = w_rec_x_t0[idx_dist3:]
-# spl_rec_x_t0_nosource3 = 10*np.log10(rho*c0**2*w_rec_x_t0_nosource3/pRef**2)
-# dist_from3 = dist_x[idx_dist3:]
 
 #Energy density at the time step of -35 dB (so the end of the calculation of RT more or less)
 w_rec_x_35dB = ((w_35dB[:, col_lr_r, dep_lr_r]*(weight_row_lr_r * weight_col_lr_r * weight_dep_lr_r))+\
@@ -660,9 +566,6 @@ w_rec_y_end = ((w_new[row_lr_r, :, dep_lr_r]*(weight_row_lr_r * weight_col_lr_r 
 spl_stat_x_t0 = 10*np.log10(rho*c0*(((Ws)/(4*math.pi*(dist_x**2))) + ((abs(w_rec_x_t0)*c0)))/(pRef**2)) #with direct sound
 spl_stat_x_5l = 10*np.log10(rho*c0**2*w_rec_x_5l/pRef**2)
 
-# spl_stat_x_t0_nosource1 = spl_stat_x_t0[idx_dist1:]
-# spl_stat_x_t0_nosource3 = spl_stat_x_t0[idx_dist3:]
-
 spl_stat_x = 10*np.log10(rho*c0*(((Ws)/(4*math.pi*(dist_x**2))) + ((abs(w_rec_x_end)*c0)))/(pRef**2))
 spl_stat_y = 10*np.log10(rho*c0*(((Ws)/(4*math.pi*(dist_y**2))) + ((abs(w_rec_y_end)*c0)))/(pRef**2)) #It should be the spl stationary
 
@@ -684,7 +587,6 @@ impulse = ((w_rec_off - w_rec_off_deriv))/dt#/(rho*c0**2) #This is the differenc
 spl_r_off_diff = 10*np.log10(((abs(impulse))*rho*(c0**2))/(pRef**2)) #,where=press_r>0, sound pressure level at the receiver
 
 #Schroeder integration
-#energy_r_rev = (w_rec_off)[::-1] #reverting the array
 #The energy density is related to the pressure with the following relation: w = p^2
 #energy_r_rev_cum = np.cumsum(energy_r_rev) #cumulative summation of all the item in the array
 schroeder = w_rec_off #energy_r_rev_cum[::-1] #reverting the array again -> creating the schroder decay
@@ -955,13 +857,8 @@ if tcalc == "stationarysource":
 np.save('results_diff_imp\\spl_r_off',spl_r_off)
 np.save('results_diff_imp\\spl_r_off_diff',spl_r_off_diff)
 np.save('results_diff_imp\\spl_rec_x_t0',spl_rec_x_t0)
-# np.save('results_diff_imp\\spl_rec_x_t0_nosource1',spl_rec_x_t0_nosource1)
-# np.save('results_diff_imp\\spl_rec_x_t0_nosource3',spl_rec_x_t0_nosource3)
 np.save('results_diff_imp\\spl_stat_x_t0',spl_stat_x_t0)
-# np.save('results_diff_imp\\spl_stat_x_t0_nosource1',spl_stat_x_t0_nosource1)
-# np.save('results_diff_imp\\spl_stat_x_t0_nosource3',spl_stat_x_t0_nosource3)
 np.save('results_diff_imp\\spl_rec_x_t0_correction',spl_rec_x_t0_correction)
-# np.save('results_diff_imp\\spl_rec_x_t0_correction_nosource1',spl_rec_x_t0_correction_nosource1)
 np.save('results_diff_imp\\spl_rec_35dB',spl_rec_35dB)
 np.save('results_diff_imp\\D_th',D_th)
 np.save('results_diff_imp\\alpha',alpha_1)
@@ -969,8 +866,6 @@ np.save('results_diff_imp\\c0',c0)
 np.save('results_diff_imp\\RT_Sabine',RT_Sabine)
 np.save('results_diff_imp\\x_axis',x)
 np.save('results_diff_imp\\t_off',t[idx_w_rec:])
-# np.save('results_diff_imp\\dist_from1',dist_from1)
-# np.save('results_diff_imp\\dist_from3',dist_from3)
 np.save('results_diff_imp\\length.npy',length)
 np.save('results_diff_imp\\width.npy',width)
 np.save('results_diff_imp\\height.npy',height)

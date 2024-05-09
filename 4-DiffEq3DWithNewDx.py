@@ -6,29 +6,12 @@ Created on Tue Feb 28 10:39:42 2023
 """
 #Code developed by Ilaria Fichera for the analysis of the FDM method Du Fort & Frankel solving the 3D diffusion equation with one intermittent omnidirectional sound source
 import math
-import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.integrate import simps
-from scipy import linalg
-import sys
-#uncomment this if you need drawnow
-#from drawnow import drawnow
 from math import ceil
 from math import log
 from FunctionRT import *
-#from FunctionEDT import *
-#from FunctionClarity import *
-#from FunctionDefinition import *
-#from FunctionCentreTime import *
-from mpl_toolkits.mplot3d import Axes3D
-import matplotlib.pyplot as plt
-from matplotlib import cm
-from matplotlib.ticker import LinearLocator
 import time as time
-from scipy import stats
-from scipy.interpolate import griddata
-from matplotlib.animation import FuncAnimation
 
 st = time.time() #start time of calculation
 
@@ -161,11 +144,6 @@ D_th = (mean_free_path*c0)/3
 longest_dimension = math.sqrt(length**2+width**2)
 longest_dimension_time = longest_dimension/c0
 longest_dimension_step = int(longest_dimension_time/dt)
- 
-#Condition for the model to be unconditionally stable
-# beta_zero_condition = ((beta_zero**2) - 1)/(1+(beta_zero**2)+(2*beta_zero)) #from Navarro 2012 paper
-# if beta_zero_condition >1:
-#     print("aa! error! Check beta condition")
 
 #Initial condition - Source Info (interrupted method)
 Vs=dx*dy*dz  #Volume of the source
@@ -302,24 +280,6 @@ dist_y = np.sqrt((((xx[row_lr_r, col_lr_r, dep_lr_r]*(weight_row_lr_r * weight_c
                                              (zz[row_up_r, col_up_r, dep_lr_r]*(weight_row_up_r * weight_col_up_r * weight_dep_lr_r))+\
                                                  (zz[row_up_r, col_up_r, dep_up_r]*(weight_row_up_r * weight_col_up_r * weight_dep_up_r))) - z_source)**2)
 
-
-#Function to draw figure
-##def draw_fig():
-##    for i in range(w_new.shape[2]):
-##        print(i)
-##        plt.figure(2)
-##        plt.imshow(w_new[:, :, i], cmap='hot', vmin=w_new.min(), vmax=w_new.max())
-
-############################################################################
-#TRIAL 4D PLOT
-############################################################################
-#Initialize the figure and axes
-#if tcalc == "decay":
-#    plt.figure()
-#    ax = fig.add_subplot(111, projection='3d')
-#    plt.title("4D plot")
-#    ax.view_init(elev=30, azim=45) #Set the initial view angle
-
 #%%
 ###############################################################################
 #MAIN CALCULATION - COMPUTING ENERGY DENSITY
@@ -395,12 +355,6 @@ for steps in range(0, recording_steps):
     sdl = 10*np.log10(abs(w_new),where=abs(w_new)>0) #sound density level
     spl = 10*np.log10(((abs(w_new))*rho*(c0**2))/(pRef**2)) #,where=press_r>0, sound pressure level in the 3D space
     
-   #uncomment when activating the drawnow library   
-   #Visualization of the energy density changes while the calculation is progressing
-    ##if (steps % 100 == 0): #draw only on certain steps and not all the steps
-    ##    print("A")
-    ##    drawnow(draw_fig)
-    
     #Update w before next step
     w_old = w #The w at n step becomes the w at n-1 step
     w = w_new #The w at n+1 step becomes the w at n step
@@ -445,40 +399,6 @@ for steps in range(0, recording_steps):
         
     if steps == sourceon_steps + idx_t35dB:
         w_35dB = w_new
-    
-    #4D Visualization????
-    #Flatten the coordinates and w_new values for scatter plot
-    ##coords = np.column_stack([xx.ravel(), yy.ravel(), zz.ravel()])
-    ##w_new_flat = w_new.ravel()
-    
-    #Normalize the w_new values to [0, 1] range
-    ##norm = plt.Normalize(vmin=np.min(w_new_flat), vmax=np.max(w_new_flat))
-    ##colors = cm.jet(norm(w_new_flat))  # Use 'jet' colormap for a range of red to yellow colors
-    
-    #Update the scatter plot with the new w_new values
-    ##if steps == 0:
-    ##    scatter = ax.scatter(coords[:, 0], coords[:, 1], coords[:, 2], c=w_new_flat, cmap='hot')
-    ##else:
-    ##    scatter.set_array(w_new_flat)
-        
-    #Set a suitable title and labels
-    ##ax.set_title("Time Step: 'time_steps'")
-    ##ax.set_xlabel('X')
-    ##ax.set_ylabel('Y')
-    ##ax.set_zlabel('Z')
-
-    #Adjust the plot limits
-    ##ax.set_xlim(0, length)
-    ##ax.set_ylim(0, width)
-    ##ax.set_zlim(0, height)
-
-    #Add a colorbar and legend
-    ##cbar = fig.colorbar(scatter, ax=ax,fraction=0.04, pad=0.1)
-    ##cbar.set_label('Energy Density')
-    ##cbar.ax.yaxis.set_ticks_position('left')
-
-    #Pause to create an animated effect
-    ##plt.pause(0.01)  # Adjust the pause duration as needed
     
     #Updating the source term
     if tcalc == "decay":
@@ -604,7 +524,6 @@ w_rec_x_t0 = ((w_t0[:, col_lr_r, dep_lr_r]*(weight_row_lr_r * weight_col_lr_r * 
                                           (w_t0[:, col_up_r, dep_lr_r]*(weight_row_up_r * weight_col_up_r * weight_dep_lr_r))+\
                                               (w_t0[:, col_up_r, dep_up_r]*(weight_row_up_r * weight_col_up_r * weight_dep_up_r)))#(Ws/(4*math.pi*Dx*dist_x)))
 
-#w_rec_x_t0 = np.where(dist_x > mean_free_path+5, w_rec_x_t0_no_term, w_rec_x_t0) #dist_x[round(mean_free_path/dx)+row_lr_s]
 spl_rec_x_t0 = 10*np.log10(rho*c0**2*w_rec_x_t0/pRef**2)
 
 w_rec_x_t0_nosource1 = w_rec_x_t0[idx_dist1:]
@@ -674,7 +593,6 @@ impulse = ((w_rec_off - w_rec_off_deriv))/dt#/(rho*c0**2) #This is the differenc
 spl_r_off_diff = 10*np.log10(((abs(impulse))*rho*(c0**2))/(pRef**2)) #,where=press_r>0, sound pressure level at the receiver
 
 #Schroeder integration
-#energy_r_rev = (w_rec_off)[::-1] #reverting the array
 #The energy density is related to the pressure with the following relation: w = p^2
 #energy_r_rev_cum = np.cumsum(energy_r_rev) #cumulative summation of all the item in the array
 schroeder = w_rec_off #energy_r_rev_cum[::-1] #reverting the array again -> creating the schroder decay
