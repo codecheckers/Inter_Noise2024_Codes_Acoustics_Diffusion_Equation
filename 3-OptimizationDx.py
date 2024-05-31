@@ -9,6 +9,7 @@ import numpy as np
 from os.path import join as pjoin
 import scipy.io as sio
 import matplotlib.pyplot as plt
+import os
 
 def calculate_energy_density(k):
     from DiffEq3DFunction import calculate_energy_density_diffusion
@@ -44,26 +45,29 @@ def obj_fun(k):
     return spl_diff
 
 #INPUT VARIABLES
-D_th = np.load('results_diff_imp/D_th.npy')
-RT_Sabine = np.load('results_diff_imp/RT_Sabine.npy')
-c0 = np.load('results_diff_imp/c0.npy')
-alpha = np.load('results_diff_imp/alpha.npy')
-length = np.load('results_diff_imp/length.npy')
-width = np.load('results_diff_imp/width.npy')
-height = np.load('results_diff_imp/height.npy')
-x_source = np.load('results_diff_imp/x_source.npy')
-y_source = np.load('results_diff_imp/y_source.npy')
-z_source = np.load('results_diff_imp/z_source.npy')
-x_rec = np.load('results_diff_imp/x_rec.npy')
-y_rec = np.load('results_diff_imp/y_rec.npy')
-z_rec = np.load('results_diff_imp/z_rec.npy')
-mean_free_path = np.load('results_diff_imp/mean_free_path.npy')
-x_axis = np.load('results_diff_imp/x_axis.npy')
+current_path = os.getcwd()
+results_diff_imp = os.path.join(current_path, 'results_diff_imp')
+#results_rad_imp = os.path.join(current_path, 'results_rad_imp')
+
+D_th = np.load(os.path.join(results_diff_imp, 'D_th.npy'))  
+RT_Sabine = np.load(os.path.join(results_diff_imp, 'RT_Sabine.npy')) 
+c0 = np.load(os.path.join(results_diff_imp, 'c0.npy')) 
+alpha = np.load(os.path.join(results_diff_imp, 'alpha.npy')) 
+length = np.load(os.path.join(results_diff_imp, 'length.npy')) 
+width = np.load(os.path.join(results_diff_imp, 'width.npy'))  
+height = np.load(os.path.join(results_diff_imp, 'height.npy')) 
+x_source = np.load(os.path.join(results_diff_imp, 'x_source.npy')) 
+y_source = np.load(os.path.join(results_diff_imp, 'y_source.npy')) 
+z_source = np.load(os.path.join(results_diff_imp, 'z_source.npy')) 
+x_rec = np.load(os.path.join(results_diff_imp, 'x_rec.npy')) 
+y_rec = np.load(os.path.join(results_diff_imp, 'y_rec.npy'))
+z_rec = np.load(os.path.join(results_diff_imp, 'z_rec.npy')) 
+mean_free_path = np.load(os.path.join(results_diff_imp, 'mean_free_path.npy'))  
+x_axis = np.load(os.path.join(results_diff_imp, 'x_axis.npy'))
 
 C2 = 0
 C1 = 0
 C0 = D_th
-mu = 5
 
 k = [C2,C1,C0] #C2*r**2 + C1*r + C0
 
@@ -77,11 +81,11 @@ mat_contents = sio.loadmat(mat_fname)
 result = least_squares(obj_fun, k, bounds=([0,0,D_th], [np.inf,np.inf,D_th+0.001]))
 
 optimal_D = result.x
-np.save('results_diff_opt\\optimal_D',optimal_D)
+np.save(os.path.join('results_diff_opt','optimal_D'),optimal_D)
 
-plt.figure(20)
-plt.title("Figure 20: D and cost")
-plt.plot(D_list,cost_list)
+# plt.figure(20)
+# plt.title("Figure 20: D and cost")
+# plt.plot(D_list,cost_list)
 
 #Calculation of error
 n = mat_contents["SPL_t0_R"].shape[1] - 10

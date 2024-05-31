@@ -12,6 +12,7 @@ from math import ceil
 from math import log
 from FunctionRT import *
 import time as time
+import os
 
 st = time.time() #start time of calculation
 
@@ -24,20 +25,23 @@ st = time.time() #start time of calculation
 c0= 343 #adiabatic speed of sound [m.s^-1]
 m_atm = 0 #air absorption coefficient [1/m] from Billon 2008 paper and Navarro paper 2012
 
+current_path = os.getcwd()
+results_diff_imp = os.path.join(current_path, 'results_diff_imp')
+
 #Room dimensions
-length = np.load('results_diff_imp/length.npy') #point x finish at the length of the room in the x direction [m] %Length
-width = np.load('results_diff_imp/width.npy') #point y finish at the length of the room in the y direction [m] %Width
-height = np.load('results_diff_imp/height.npy') #point z finish at the length of the room in the x direction [m] %Height
+length = np.load(os.path.join(results_diff_imp, 'length.npy')) #point x finish at the length of the room in the x direction [m] %Length
+width = np.load(os.path.join(results_diff_imp, 'width.npy'))  #point y finish at the length of the room in the y direction [m] %Width
+height = np.load(os.path.join(results_diff_imp, 'height.npy')) #point z finish at the length of the room in the x direction [m] %Height
 
 # Source position
-x_source = np.load('results_diff_imp/x_source.npy')  #position of the source in the x direction [m]
-y_source = np.load('results_diff_imp/y_source.npy')  #position of the source in the y direction [m]
-z_source = np.load('results_diff_imp/z_source.npy')  #position of the source in the z direction [m]
+x_source = np.load(os.path.join(results_diff_imp, 'x_source.npy')) #position of the source in the x direction [m]
+y_source = np.load(os.path.join(results_diff_imp, 'y_source.npy')) #position of the source in the y direction [m]
+z_source = np.load(os.path.join(results_diff_imp, 'z_source.npy')) #position of the source in the z direction [m]
 
 # Receiver position
-x_rec = np.load('results_diff_imp/x_rec.npy') #position of the receiver in the x direction [m]
-y_rec = np.load('results_diff_imp/y_rec.npy') #position of the receiver in the y direction [m]
-z_rec = np.load('results_diff_imp/z_rec.npy') #position of the receiver in the z direction [m]
+x_rec = np.load(os.path.join(results_diff_imp, 'x_rec.npy')) #position of the receiver in the x direction [m]
+y_rec = np.load(os.path.join(results_diff_imp, 'y_rec.npy')) #position of the receiver in the y direction [m]
+z_rec = np.load(os.path.join(results_diff_imp, 'z_rec.npy')) #position of the receiver in the z direction [m]
 
 #Spatial discretization
 dx = 0.5 #distance between grid points x direction [m] #See Documentation for more insight about dt and dx
@@ -93,10 +97,10 @@ yy, xx , zz = np.meshgrid(y,x,z) #Return coordinate matrices from coordinate vec
 
 #uncoment this when using drawnow
 #Figure 1: Visualization of 3D meshgrid
-fig = plt.figure(1)
-ax = plt.axes(projection ="3d")
-ax.scatter(xx, yy, zz, c=zz, cmap='Greens')
-plt.title("Figure 1: Visualization of 3D meshgrid")
+# fig = plt.figure(1)
+# ax = plt.axes(projection ="3d")
+# ax.scatter(xx, yy, zz, c=zz, cmap='Greens')
+# plt.title("Figure 1: Visualization of 3D meshgrid")
 
 #Absorption term for boundary conditions 
 def abs_term(th,alpha):
@@ -380,5 +384,5 @@ elapsed_time = et - st
 ###############################################################################
 #SAVING
 ###############################################################################
-np.save('results_diff_imp\\t30_x',t30_x)
+np.save(os.path.join('results_diff_imp','t30_x'),t30_x)
 

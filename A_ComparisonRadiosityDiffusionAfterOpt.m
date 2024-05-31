@@ -1,17 +1,25 @@
+close all;
+clear;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Comparison OVER AXIS
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+current_path = fileparts(mfilename('fullpath'));
+results_diff_imp = fullfile(current_path, 'results_diff_imp');
+results_rad_imp = fullfile(current_path, 'results_rad_imp');
+results_diff_opt = fullfile(current_path, 'results_diff_opt');
+
 %Graphs before optimization of room 10x10x10
-x_source = readNPY('results_diff_imp\\x_source.npy');
+x_source = readNPY(fullfile(results_diff_imp,'x_source.npy'));
 if x_source == 5
-    load("results_rad_imp\\SPL_t0_R.mat","SPL_t0_R")
-    load("results_rad_imp\\T30_x.mat","T30_x")
-    load("results_rad_imp\\x_axis_R.mat","x_axis")
-    SPL_t0_PY = readNPY('results_diff_imp\\spl_rec_x_t0_correction.npy');
-    T30_x_PY = readNPY('results_diff_imp\\t30_x.npy');
-    x_axis_PY = readNPY('results_diff_imp\\x_axis.npy');
+    load(fullfile(results_rad_imp,"SPL_t0_R.mat"))
+    load(fullfile(results_rad_imp,"T30_x.mat"))
+    load(fullfile(results_rad_imp,"x_axis_R.mat"))
+    SPL_t0_PY = readNPY(fullfile(results_diff_imp,'spl_rec_x_t0_correction.npy'));
+    T30_x_PY = readNPY(fullfile(results_diff_imp,'t30_x.npy'));
+    x_axis_PY = readNPY(fullfile(results_diff_imp,'x_axis.npy'));
 
     f1 = figure(1);
     plot(x_axis_PY, SPL_t0_R,"Color", "#000000",'LineWidth',0.5)
@@ -47,19 +55,19 @@ else
 
 %Graphs before and after optimization of all other rooms
 %Load Matlab
-load("results_rad_imp\\SPL_t0_R.mat","SPL_t0_R")
-load("results_rad_imp\\T30_x.mat","T30_x")
+load(fullfile(results_rad_imp,"SPL_t0_R"))
+load(fullfile(results_rad_imp,"T30_x"))
 
 %Load Python BEFORE
-SPL_t0_PY_before = readNPY('results_diff_imp\\spl_rec_x_t0.npy');
-x_source = readNPY('results_diff_imp\\x_source.npy');
-mean_free_path = readNPY('results_diff_imp\\mean_free_path.npy');
-T30_x_PY = readNPY('results_diff_imp\\t30_x.npy');
+SPL_t0_PY_before = readNPY(fullfile(results_diff_imp,'spl_rec_x_t0.npy'));
+x_source = readNPY(fullfile(results_diff_imp,'x_source.npy'));
+mean_free_path = readNPY(fullfile(results_diff_imp,'mean_free_path.npy'));
+T30_x_PY = readNPY(fullfile(results_diff_imp,'t30_x.npy'));
 
 %Load Python AFTER
-x_axis = readNPY('results_diff_opt\\x_axis.npy');
-SPL_t0_PY_after = readNPY('results_diff_opt\\spl_rec_x_t0.npy');
-Dx = readNPY('results_diff_opt\\Dx.npy');
+x_axis = readNPY(fullfile(results_diff_opt,'x_axis.npy'));
+SPL_t0_PY_after = readNPY(fullfile(results_diff_opt,'spl_rec_x_t0.npy'));
+Dx = readNPY(fullfile(results_diff_opt,'Dx.npy'));
 
 acc = 0.5;
 mean_free_path_rounded = round(mean_free_path/acc)*acc;

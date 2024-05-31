@@ -1,34 +1,39 @@
+close all;
+clear;
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %Load data
-x_source_9x3x3 = readNPY('Results\NPR9x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_imp\\x_source.npy');
-x_source_24x3x3S1 = readNPY('Results\NPR24x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_imp\\x_source.npy');
-x_source_39x3x3S1 = readNPY('Results\NPR39x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_imp\\x_source.npy');
-x_source_39x3x3S15 = readNPY('Results\NPR39x3x3-S15,1.5,1.5-Rx,1.5,1.5\results_diff_imp\\x_source.npy');
+current_path = fileparts(mfilename('fullpath'));
+results = fullfile(current_path, 'Results');
 
-mean_path_9x3x3 = readNPY('Results\NPR9x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_imp\\mean_free_path.npy');
-mean_path_24x3x3S1 = readNPY('Results\NPR24x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_imp\\mean_free_path.npy');
-mean_path_39x3x3S1 = readNPY('Results\NPR39x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_imp\\mean_free_path.npy');
-mean_path_39x3x3S15 = readNPY('Results\NPR39x3x3-S15,1.5,1.5-Rx,1.5,1.5\results_diff_imp\\mean_free_path.npy');
+x_source_9x3x3 = readNPY(fullfile(results,'NPR9x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_imp','x_source.npy'));
+x_source_24x3x3S1 = readNPY(fullfile(results,'NPR24x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_imp','x_source.npy'));
+x_source_39x3x3S1 = readNPY(fullfile(results,'NPR39x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_imp','x_source.npy'));
+x_source_39x3x3S15 = readNPY(fullfile(results,'NPR39x3x3-S15,1.5,1.5-Rx,1.5,1.5','results_diff_imp','x_source.npy'));
 
-Dx_9x3x3 = readNPY('Results\NPR9x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_opt\\Dx.npy');
-Dx_24x3x3S1 = readNPY('Results\NPR24x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_opt\\Dx.npy');
-Dx_39x3x3S1 = readNPY('Results\NPR39x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_opt\\Dx.npy');
-Dx_39x3x3S15 = readNPY('Results\NPR39x3x3-S15,1.5,1.5-Rx,1.5,1.5\results_diff_opt\\Dx.npy');
+mean_path_9x3x3 = readNPY(fullfile(results,'NPR9x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_imp','mean_free_path.npy'));
+mean_path_24x3x3S1 = readNPY(fullfile(results,'NPR24x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_imp','mean_free_path.npy'));
+mean_path_39x3x3S1 = readNPY(fullfile(results,'NPR39x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_imp','mean_free_path.npy'));
+mean_path_39x3x3S15 = readNPY(fullfile(results,'NPR39x3x3-S15,1.5,1.5-Rx,1.5,1.5','results_diff_imp','mean_free_path.npy'));
 
-x_9x3x3m = readNPY('Results\NPR9x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_opt\\x_axis.npy');
-x_24x3x3m = readNPY('Results\NPR24x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_opt\\x_axis.npy');
-x_39x3x3m = readNPY('Results\NPR39x3x3-S15,1.5,1.5-Rx,1.5,1.5\results_diff_opt\\x_axis.npy');
+Dx_9x3x3 = readNPY(fullfile(results,'NPR9x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_opt','Dx.npy'));
+Dx_24x3x3S1 = readNPY(fullfile(results,'NPR24x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_opt','Dx.npy'));
+Dx_39x3x3S1 = readNPY(fullfile(results,'NPR39x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_opt','Dx.npy'));
+Dx_39x3x3S15 = readNPY(fullfile(results,'NPR39x3x3-S15,1.5,1.5-Rx,1.5,1.5','results_diff_opt','Dx.npy'));
 
-Dth_9x3x3 = readNPY('Results\NPR9x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_imp\\D_th.npy');
-Dth_24x3x3 = readNPY('Results\NPR24x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_imp\\D_th.npy');
-Dth_39x3x3 = readNPY('Results\NPR39x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_imp\\D_th.npy');
+x_9x3x3m = readNPY(fullfile(results,'NPR9x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_opt','x_axis.npy'));
+x_24x3x3m = readNPY(fullfile(results,'NPR24x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_opt','x_axis.npy'));
+x_39x3x3m = readNPY(fullfile(results,'NPR39x3x3-S15,1.5,1.5-Rx,1.5,1.5','results_diff_opt','x_axis.npy'));
 
-k_9x3x3 = readNPY('Results\NPR9x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_opt\\optimal_D.npy');
-k_24x3x3S1 = readNPY('Results\NPR24x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_opt\\optimal_D.npy');
-k_39x3x3S1 = readNPY('Results\NPR39x3x3-S1.5,1.5,1.5-Rx,1.5,1.5\results_diff_opt\\optimal_D.npy');
-k_39x3x3S15 = readNPY('Results\NPR39x3x3-S15,1.5,1.5-Rx,1.5,1.5\results_diff_opt\\optimal_D.npy');
+Dth_9x3x3 = readNPY(fullfile(results,'NPR9x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_imp','D_th.npy'));
+Dth_24x3x3 = readNPY(fullfile(results,'NPR24x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_imp','D_th.npy'));
+Dth_39x3x3 = readNPY(fullfile(results,'NPR39x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_imp','D_th.npy'));
+
+k_9x3x3 = readNPY(fullfile(results,'NPR9x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_opt','optimal_D.npy'));
+k_24x3x3S1 = readNPY(fullfile(results,'NPR24x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_opt','optimal_D.npy'));
+k_39x3x3S1 = readNPY(fullfile(results,'NPR39x3x3-S1.5,1.5,1.5-Rx,1.5,1.5','results_diff_opt','optimal_D.npy'));
+k_39x3x3S15 = readNPY(fullfile(results,'NPR39x3x3-S15,1.5,1.5-Rx,1.5,1.5','results_diff_opt','optimal_D.npy'));
 
 %Distance from for 9x3x3
 pos_from_9x3x3 = x_source_9x3x3 + mean_path_9x3x3;

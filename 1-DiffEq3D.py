@@ -16,6 +16,7 @@ from FunctionClarity import *
 from FunctionDefinition import *
 from FunctionCentreTime import *
 import time as time
+import os
 
 st = time.time() #start time of calculation
 
@@ -29,7 +30,7 @@ c0= 343 #adiabatic speed of sound [m.s^-1]
 m_atm = 0 #air absorption coefficient [1/m] from Billon 2008 paper and Navarro paper 2012
 
 #Room dimensions
-length = 24 #point x finish at the length of the room in the x direction [m] %Length
+length = 39 #point x finish at the length of the room in the x direction [m] %Length
 width = 3 #point y finish at the length of the room in the y direction [m] %Width
 height = 3 #point z finish at the length of the room in the x direction [m] %Height
 
@@ -39,7 +40,7 @@ y_source = 1.5  #position of the source in the y direction [m]
 z_source = 1.5  #position of the source in the z direction [m]
 
 # Receiver position
-x_rec = 23 #position of the receiver in the x direction [m]
+x_rec = 8 #position of the receiver in the x direction [m]
 y_rec = 1.5 #position of the receiver in the y direction [m]
 z_rec = 1.5 #position of the receiver in the z direction [m]
 
@@ -97,10 +98,10 @@ yy, xx , zz = np.meshgrid(y,x,z) #Return coordinate matrices from coordinate vec
 
 #uncoment this when using drawnow
 #Figure 1: Visualization of 3D meshgrid
-fig = plt.figure(1)
-ax = plt.axes(projection ="3d")
-ax.scatter(xx, yy, zz, c=zz, cmap='Greens')
-plt.title("Figure 1: Visualization of 3D meshgrid")
+# fig = plt.figure(1)
+# ax = plt.axes(projection ="3d")
+# ax.scatter(xx, yy, zz, c=zz, cmap='Greens')
+# plt.title("Figure 1: Visualization of 3D meshgrid")
 
 #Absorption term for boundary conditions 
 def abs_term(th,alpha):
@@ -607,272 +608,272 @@ elapsed_time = et - st
 #FIGURES & POST-PROCESSING
 ###############################################################################
 
-if tcalc == "decay":
-    #Figure 5: Decay of SPL in the recording_time
-    plt.figure(5)
-    plt.plot(t, spl_r)  # plot sound pressure level with Pref = (2e-5)**5
-    plt.title("Figure 5 :SPL over time at the receiver")
-    plt.xlabel("t [s]")
-    plt.ylabel("SPL [dB]")
-    plt.xlim()
-    plt.ylim()
-    plt.xticks(np.arange(0, recording_time + 0.1, 0.5))
-    plt.yticks(np.arange(0, 120, 20))
+# if tcalc == "decay":
+#     #Figure 5: Decay of SPL in the recording_time
+#     plt.figure(5)
+#     plt.plot(t, spl_r)  # plot sound pressure level with Pref = (2e-5)**5
+#     plt.title("Figure 5 :SPL over time at the receiver")
+#     plt.xlabel("t [s]")
+#     plt.ylabel("SPL [dB]")
+#     plt.xlim()
+#     plt.ylim()
+#     plt.xticks(np.arange(0, recording_time + 0.1, 0.5))
+#     plt.yticks(np.arange(0, 120, 20))
 
-    #Figure 6: Decay of SPL in the recording_time normalised to maximum 0dB
-    plt.figure(6)
-    plt.plot(t,spl_r_norm)
-    plt.title("Figure 6: Normalised SPL over time at the receiver")
-    plt.xlabel("t [s]")
-    plt.ylabel("SPL [dB]")
-    plt.xlim()
-    plt.ylim()
-    plt.xticks(np.arange(0, recording_time +0.1, 0.1))
-    plt.yticks(np.arange(0, -60, -10))
+#     #Figure 6: Decay of SPL in the recording_time normalised to maximum 0dB
+#     plt.figure(6)
+#     plt.plot(t,spl_r_norm)
+#     plt.title("Figure 6: Normalised SPL over time at the receiver")
+#     plt.xlabel("t [s]")
+#     plt.ylabel("SPL [dB]")
+#     plt.xlim()
+#     plt.ylim()
+#     plt.xticks(np.arange(0, recording_time +0.1, 0.1))
+#     plt.yticks(np.arange(0, -60, -10))
     
-    #Figure 7: Energy density at the receiver over time
-    plt.figure(7)
-    plt.plot(t,w_rec)
-    plt.title("Figure 7: Energy density over time at the receiver")
-    plt.xlabel("t [s]")
-    plt.ylabel("Energy density [kg m^-1 s^-2]")
-    plt.xlim()
-    plt.ylim()
-    plt.xticks(np.arange(0, recording_time +0.1, 0.1))
+#     #Figure 7: Energy density at the receiver over time
+#     plt.figure(7)
+#     plt.plot(t,w_rec)
+#     plt.title("Figure 7: Energy density over time at the receiver")
+#     plt.xlabel("t [s]")
+#     plt.ylabel("Energy density [kg m^-1 s^-2]")
+#     plt.xlim()
+#     plt.ylim()
+#     plt.xticks(np.arange(0, recording_time +0.1, 0.1))
     
-    #Figure 8: Schroeder decay
-    plt.figure(8)
-    plt.plot(t[idx_w_rec:],sch_db)
-    plt.title("Figure 8: Schroeder decay (Energy Decay Curve)")
-    plt.xlabel("t [s]")
-    plt.ylabel("Energy decay [dB]")
-    plt.xlim()
-    plt.ylim()
-    #plt.xticks(np.arange(t, recording_time +0.1, 0.1))
+#     #Figure 8: Schroeder decay
+#     plt.figure(8)
+#     plt.plot(t[idx_w_rec:],sch_db)
+#     plt.title("Figure 8: Schroeder decay (Energy Decay Curve)")
+#     plt.xlabel("t [s]")
+#     plt.ylabel("Energy decay [dB]")
+#     plt.xlim()
+#     plt.ylim()
+#     #plt.xticks(np.arange(t, recording_time +0.1, 0.1))
     
-    #Figure 9: 2D image of the energy density in the room
-    w_new_2d = w_new[:,:,dep_up_r] #The 3D w_new array is slised at the the desired z level
-    plt.figure(9)
-    plt.imshow(w_new_2d, origin='lower', extent=[x[0], x[-1], y[0], y[-1]], aspect='equal') #plot with the extent being the room dimension x and y 
-    plt.colorbar(label='Energy Density [kg/ms^2]')
-    plt.xlabel('X [m]')
-    plt.ylabel('Y [m]')
-    plt.title('Figure 9: Energy Density at Z = z_rec and t = recording_time')
-    plt.show()
+#     #Figure 9: 2D image of the energy density in the room
+#     w_new_2d = w_new[:,:,dep_up_r] #The 3D w_new array is slised at the the desired z level
+#     plt.figure(9)
+#     plt.imshow(w_new_2d, origin='lower', extent=[x[0], x[-1], y[0], y[-1]], aspect='equal') #plot with the extent being the room dimension x and y 
+#     plt.colorbar(label='Energy Density [kg/ms^2]')
+#     plt.xlabel('X [m]')
+#     plt.ylabel('Y [m]')
+#     plt.title('Figure 9: Energy Density at Z = z_rec and t = recording_time')
+#     plt.show()
     
-    #Figure 10: 2D image of the SDL in the room
-    sdl_2d = sdl[:,:,dep_up_r] #The 3D w_new array is slised at the the desired z level
-    plt.figure(10)
-    plt.imshow(sdl_2d, origin='lower', extent=[x[0], x[-1], y[0], y[-1]], aspect='equal') #plot with the extent being the room dimension x and y 
-    plt.colorbar(label='Sound Density Level [dB]')
-    plt.xlabel('X [m]')
-    plt.ylabel('Y [m]')
-    plt.title('Figure 10: Sound Density level at Z = z_rec and t = recording_time')
-    plt.show()
+#     #Figure 10: 2D image of the SDL in the room
+#     sdl_2d = sdl[:,:,dep_up_r] #The 3D w_new array is slised at the the desired z level
+#     plt.figure(10)
+#     plt.imshow(sdl_2d, origin='lower', extent=[x[0], x[-1], y[0], y[-1]], aspect='equal') #plot with the extent being the room dimension x and y 
+#     plt.colorbar(label='Sound Density Level [dB]')
+#     plt.xlabel('X [m]')
+#     plt.ylabel('Y [m]')
+#     plt.title('Figure 10: Sound Density level at Z = z_rec and t = recording_time')
+#     plt.show()
     
-    #Figure 11: 2D image of the SPL in the room
-    spl_2d = spl[:,:,dep_up_r] #The 3D w_new array is slised at the the desired z level
-    plt.figure(11)
-    plt.imshow(spl_2d, origin='lower', extent=[x[0], x[-1], y[0], y[-1]], aspect='equal') #plot with the extent being the room dimension x and y 
-    plt.colorbar(label='Sound Pressure Level [dB]')
-    plt.xlabel('X [m]')
-    plt.ylabel('Y [m]')
-    plt.title('Figure 11: Sound Pressure level at Z = z_rec and t = recording_time')
-    plt.show()
+#     #Figure 11: 2D image of the SPL in the room
+#     spl_2d = spl[:,:,dep_up_r] #The 3D w_new array is slised at the the desired z level
+#     plt.figure(11)
+#     plt.imshow(spl_2d, origin='lower', extent=[x[0], x[-1], y[0], y[-1]], aspect='equal') #plot with the extent being the room dimension x and y 
+#     plt.colorbar(label='Sound Pressure Level [dB]')
+#     plt.xlabel('X [m]')
+#     plt.ylabel('Y [m]')
+#     plt.title('Figure 11: Sound Pressure level at Z = z_rec and t = recording_time')
+#     plt.show()
     
-    #Figure 12: Energy density at t=recording_time over the space x.
-    plt.figure(12)
-    plt.title("Figure 12: Energy density over the x axis at t=recording_time")
-    plt.plot(x,w_rec_x_end)
-    plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$')
+#     #Figure 12: Energy density at t=recording_time over the space x.
+#     plt.figure(12)
+#     plt.title("Figure 12: Energy density over the x axis at t=recording_time")
+#     plt.plot(x,w_rec_x_end)
+#     plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$')
     
-    #Figure 13: Energy density at t=sourceoff_step over the space x.
-    plt.figure(13)
-    plt.title("Figure 13: Energy density over the x axis at t=0")
-    plt.plot(x,w_rec_x_t0)
-    plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
+#     #Figure 13: Energy density at t=sourceoff_step over the space x.
+#     plt.figure(13)
+#     plt.title("Figure 13: Energy density over the x axis at t=0")
+#     plt.plot(x,w_rec_x_t0)
+#     plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
     
-    #Figure 14: SPL at t=sourceoff_step over the space x. reverb sound only
-    plt.figure(14)
-    plt.title("Figure 14: SPL REVERB over the x axis at t=0")
-    plt.plot(x,spl_rec_x_t0)
-    plt.ylabel('$\mathrm{SPL \ [dB]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
+#     #Figure 14: SPL at t=sourceoff_step over the space x. reverb sound only
+#     plt.figure(14)
+#     plt.title("Figure 14: SPL REVERB over the x axis at t=0")
+#     plt.plot(x,spl_rec_x_t0)
+#     plt.ylabel('$\mathrm{SPL \ [dB]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
        
-    #Figure 15: Energy density at t=1*mean_free over the space x.
-    plt.figure(15)
-    plt.title("Figure 15: Energy density over the x axis at t=1*mean_free_time")
-    plt.plot(x,w_rec_x_1l)
-    plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
+#     #Figure 15: Energy density at t=1*mean_free over the space x.
+#     plt.figure(15)
+#     plt.title("Figure 15: Energy density over the x axis at t=1*mean_free_time")
+#     plt.plot(x,w_rec_x_1l)
+#     plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
     
-    #Figure 16: SPL at  t=1*mean_free over the space x. reverb sound only
-    plt.figure(16)
-    plt.title("Figure 16: SPL REVERB over the x axis at t=1*mean_free")
-    plt.plot(x,spl_rec_x_1l)
-    plt.ylabel('$\mathrm{SPL \ [dB]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$')    
+#     #Figure 16: SPL at  t=1*mean_free over the space x. reverb sound only
+#     plt.figure(16)
+#     plt.title("Figure 16: SPL REVERB over the x axis at t=1*mean_free")
+#     plt.plot(x,spl_rec_x_1l)
+#     plt.ylabel('$\mathrm{SPL \ [dB]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$')    
     
-    #Figure 17: Energy density at t=2*mean_free over the space x.
-    plt.figure(17)
-    plt.title("Figure 17: Energy density over the x axis at t=2*mean_free_time")
-    plt.plot(x,w_rec_x_2l)
-    plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
+#     #Figure 17: Energy density at t=2*mean_free over the space x.
+#     plt.figure(17)
+#     plt.title("Figure 17: Energy density over the x axis at t=2*mean_free_time")
+#     plt.plot(x,w_rec_x_2l)
+#     plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
     
-    #Figure 18: SPL at  t=2*mean_free over the space x. reverb sound only
-    plt.figure(18)
-    plt.title("Figure 18: SPL REVERB over the x axis at t=2*mean_free")
-    plt.plot(x,spl_rec_x_2l)
-    plt.ylabel('$\mathrm{SPL \ [dB]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$')      
+#     #Figure 18: SPL at  t=2*mean_free over the space x. reverb sound only
+#     plt.figure(18)
+#     plt.title("Figure 18: SPL REVERB over the x axis at t=2*mean_free")
+#     plt.plot(x,spl_rec_x_2l)
+#     plt.ylabel('$\mathrm{SPL \ [dB]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$')      
     
-    #Figure 19: Energy density at t=3*mean_free over the space x.
-    plt.figure(19)
-    plt.title("Figure 19: Energy density over the x axis at t=3*mean_free_time")
-    plt.plot(x,w_rec_x_3l)
-    plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
+#     #Figure 19: Energy density at t=3*mean_free over the space x.
+#     plt.figure(19)
+#     plt.title("Figure 19: Energy density over the x axis at t=3*mean_free_time")
+#     plt.plot(x,w_rec_x_3l)
+#     plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
     
-    #Figure 20: SPL at  t=3*mean_free over the space x. reverb sound only
-    plt.figure(20)
-    plt.title("Figure 20: SPL REVERB over the x axis at t=3*mean_free")
-    plt.plot(x,spl_rec_x_3l)
-    plt.ylabel('$\mathrm{SPL \ [dB]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
+#     #Figure 20: SPL at  t=3*mean_free over the space x. reverb sound only
+#     plt.figure(20)
+#     plt.title("Figure 20: SPL REVERB over the x axis at t=3*mean_free")
+#     plt.plot(x,spl_rec_x_3l)
+#     plt.ylabel('$\mathrm{SPL \ [dB]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
     
-    #Figure 21: Energy density at t=5*mean_free over the space x.
-    plt.figure(21)
-    plt.title("Figure 21: Energy density over the x axis at t=5*mean_free_time")
-    plt.plot(x,w_rec_x_5l)
-    plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
+#     #Figure 21: Energy density at t=5*mean_free over the space x.
+#     plt.figure(21)
+#     plt.title("Figure 21: Energy density over the x axis at t=5*mean_free_time")
+#     plt.plot(x,w_rec_x_5l)
+#     plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
     
-    #Figure 22: SPL at  t=5*mean_free over the space x. reverb sound only
-    plt.figure(22)
-    plt.title("Figure 22: SPL REVERB over the x axis at t=5*mean_free")
-    plt.plot(x,spl_rec_x_5l)
-    plt.ylabel('$\mathrm{SPL \ [dB]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
+#     #Figure 22: SPL at  t=5*mean_free over the space x. reverb sound only
+#     plt.figure(22)
+#     plt.title("Figure 22: SPL REVERB over the x axis at t=5*mean_free")
+#     plt.plot(x,spl_rec_x_5l)
+#     plt.ylabel('$\mathrm{SPL \ [dB]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
     
-    #Figure 23: Energy density at t=2*ld over the space x.
-    plt.figure(23)
-    plt.title("Figure 23: Energy density over the x axis at t=2*longest_dimension_time")
-    plt.plot(x,w_rec_x_2ld)
-    plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
+#     #Figure 23: Energy density at t=2*ld over the space x.
+#     plt.figure(23)
+#     plt.title("Figure 23: Energy density over the x axis at t=2*longest_dimension_time")
+#     plt.plot(x,w_rec_x_2ld)
+#     plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
     
-    #Figure 24: SPL at  t=2*ld over the space x. reverb sound only
-    plt.figure(24)
-    plt.title("Figure 24: SPL REVERB over the x axis at t=2*longest_dimension_time")
-    plt.plot(x,spl_rec_x_2ld)
-    plt.ylabel('$\mathrm{SPL \ [dB]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
+#     #Figure 24: SPL at  t=2*ld over the space x. reverb sound only
+#     plt.figure(24)
+#     plt.title("Figure 24: SPL REVERB over the x axis at t=2*longest_dimension_time")
+#     plt.plot(x,spl_rec_x_2ld)
+#     plt.ylabel('$\mathrm{SPL \ [dB]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
     
-    #Figure 25: Energy density at t=4*ld over the space x.
-    plt.figure(25)
-    plt.title("Figure 25: Energy density over the x axis at t=4*longest_dimension_time")
-    plt.plot(x,w_rec_x_4ld)
-    plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
+#     #Figure 25: Energy density at t=4*ld over the space x.
+#     plt.figure(25)
+#     plt.title("Figure 25: Energy density over the x axis at t=4*longest_dimension_time")
+#     plt.plot(x,w_rec_x_4ld)
+#     plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
     
-    #Figure 26: SPL at  t=4*ld over the space x. reverb sound only
-    plt.figure(26)
-    plt.title("Figure 26: SPL REVERB over the x axis at t=4*longest_dimension_time")
-    plt.plot(x,spl_rec_x_4ld)
-    plt.ylabel('$\mathrm{SPL \ [dB]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
+#     #Figure 26: SPL at  t=4*ld over the space x. reverb sound only
+#     plt.figure(26)
+#     plt.title("Figure 26: SPL REVERB over the x axis at t=4*longest_dimension_time")
+#     plt.plot(x,spl_rec_x_4ld)
+#     plt.ylabel('$\mathrm{SPL \ [dB]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$') 
     
-if tcalc == "stationarysource":
+# if tcalc == "stationarysource":
 
-    #Figure 3: Decay of SPL in the recording_time at the receiver
-    plt.figure(3)
-    plt.plot(t,spl_r) #plot sound pressure level with Pref = (2e-5)**5
-    plt.title("Figure 3: SPL over time at the receiver")
-    plt.xlabel("t [s]")
-    plt.ylabel("SPL [dB]")
-    plt.xlim()
-    plt.ylim()
-    plt.xticks(np.arange(0, recording_time +0.1, 0.5))
-    #plt.yticks(np.arange(0, 120, 20))
+#     #Figure 3: Decay of SPL in the recording_time at the receiver
+#     plt.figure(3)
+#     plt.plot(t,spl_r) #plot sound pressure level with Pref = (2e-5)**5
+#     plt.title("Figure 3: SPL over time at the receiver")
+#     plt.xlabel("t [s]")
+#     plt.ylabel("SPL [dB]")
+#     plt.xlim()
+#     plt.ylim()
+#     plt.xticks(np.arange(0, recording_time +0.1, 0.5))
+#     #plt.yticks(np.arange(0, 120, 20))
 
-    #Figure 4: Decay of SPL in the recording_time normalised to maximum 0dB
-    plt.figure(4)
-    plt.title("Figure 4: Normalised SPL over time at the receiver")
-    plt.plot(t,spl_r_norm)
-    plt.xlabel("t [s]")
-    plt.ylabel("SPL [dB]")
-    plt.xlim()
-    plt.ylim()
-    plt.xticks(np.arange(0, recording_time +0.1, 0.1))
-    plt.yticks(np.arange(0, -60, -10))
+#     #Figure 4: Decay of SPL in the recording_time normalised to maximum 0dB
+#     plt.figure(4)
+#     plt.title("Figure 4: Normalised SPL over time at the receiver")
+#     plt.plot(t,spl_r_norm)
+#     plt.xlabel("t [s]")
+#     plt.ylabel("SPL [dB]")
+#     plt.xlim()
+#     plt.ylim()
+#     plt.xticks(np.arange(0, recording_time +0.1, 0.1))
+#     plt.yticks(np.arange(0, -60, -10))
 
-    #Figure 5: Energy density over time at the receiver
-    plt.figure(5)
-    plt.title("Figure 5: Energy density over time at the receiver")
-    plt.plot(t,w_rec)
-    plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
-    plt.xlabel("t [s]")
+#     #Figure 5: Energy density over time at the receiver
+#     plt.figure(5)
+#     plt.title("Figure 5: Energy density over time at the receiver")
+#     plt.plot(t,w_rec)
+#     plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
+#     plt.xlabel("t [s]")
 
-    #Figure 6: Sound pressure level stationary over the space y.
-    plt.figure(6)
-    t_dim = len(t)
-    last_time_index = t_dim-1
-    #spl_y = spl_stat[rows_r,:,dept_r]
-    spl_y = spl_stat_y
-    data_y = spl_y
-    plt.title("Figure 6: SPL over the y axis")
-    plt.plot(y,data_y)
-    #plt.xticks(np.arange(0, 20, 5))
-    #plt.yticks(np.arange(75, 105, 5))
-    plt.ylabel('$\mathrm{Sound \ Pressure\ Level \ [dB]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ y \ axis \ [m]}$')
+#     #Figure 6: Sound pressure level stationary over the space y.
+#     plt.figure(6)
+#     t_dim = len(t)
+#     last_time_index = t_dim-1
+#     #spl_y = spl_stat[rows_r,:,dept_r]
+#     spl_y = spl_stat_y
+#     data_y = spl_y
+#     plt.title("Figure 6: SPL over the y axis")
+#     plt.plot(y,data_y)
+#     #plt.xticks(np.arange(0, 20, 5))
+#     #plt.yticks(np.arange(75, 105, 5))
+#     plt.ylabel('$\mathrm{Sound \ Pressure\ Level \ [dB]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ y \ axis \ [m]}$')
 
-    #Figure 7: Sound pressure level stationary over the space x.
-    plt.figure(7)
-    t_dim = len(t)
-    last_time_index = t_dim-1
-    spl_x = spl_stat_x
-    data_x = spl_x
-    plt.title("Figure 7: SPL over the x axis")
-    plt.plot(x,data_x)
-    #plt.xticks(np.arange(0, 35, 5))
-    #plt.yticks(np.arange(90, 97, 1))
-    plt.ylabel('$\mathrm{Sound \ Pressure \ Level \ [dB]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$')
+#     #Figure 7: Sound pressure level stationary over the space x.
+#     plt.figure(7)
+#     t_dim = len(t)
+#     last_time_index = t_dim-1
+#     spl_x = spl_stat_x
+#     data_x = spl_x
+#     plt.title("Figure 7: SPL over the x axis")
+#     plt.plot(x,data_x)
+#     #plt.xticks(np.arange(0, 35, 5))
+#     #plt.yticks(np.arange(90, 97, 1))
+#     plt.ylabel('$\mathrm{Sound \ Pressure \ Level \ [dB]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$')
     
-    #Figure 8: Energy density at t=recording_time over the space x.
-    plt.figure(8)
-    plt.title("Figure 8: Energy density over the x axis at t=recording_time")
-    plt.plot(x,w_rec_x_end)
-    plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
-    plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$')
+#     #Figure 8: Energy density at t=recording_time over the space x.
+#     plt.figure(8)
+#     plt.title("Figure 8: Energy density over the x axis at t=recording_time")
+#     plt.plot(x,w_rec_x_end)
+#     plt.ylabel('$\mathrm{Energy \ Density \ [kg/ms^2]}$')
+#     plt.xlabel('$\mathrm{Distance \ along \ x \ axis \ [m]}$')
     
 #%%
 ###############################################################################
 #SAVING
 ###############################################################################
-np.save('results_diff_imp\\spl_r_off',spl_r_off)
-np.save('results_diff_imp\\spl_r_off_diff',spl_r_off_diff)
-np.save('results_diff_imp\\spl_rec_x_t0',spl_rec_x_t0)
-np.save('results_diff_imp\\spl_stat_x_t0',spl_stat_x_t0)
-np.save('results_diff_imp\\spl_rec_x_t0_correction',spl_rec_x_t0_correction)
-np.save('results_diff_imp\\spl_rec_35dB',spl_rec_35dB)
-np.save('results_diff_imp\\D_th',D_th)
-np.save('results_diff_imp\\alpha',alpha_1)
-np.save('results_diff_imp\\c0',c0)
-np.save('results_diff_imp\\RT_Sabine',RT_Sabine)
-np.save('results_diff_imp\\x_axis',x)
-np.save('results_diff_imp\\t_off',t[idx_w_rec:])
-np.save('results_diff_imp\\length.npy',length)
-np.save('results_diff_imp\\width.npy',width)
-np.save('results_diff_imp\\height.npy',height)
-np.save('results_diff_imp\\x_source.npy',x_source)
-np.save('results_diff_imp\\y_source.npy',y_source)
-np.save('results_diff_imp\\z_source.npy',z_source)
-np.save('results_diff_imp\\x_rec.npy',x_rec)
-np.save('results_diff_imp\\y_rec.npy',y_rec)
-np.save('results_diff_imp\\z_rec.npy',z_rec)
-np.save('results_diff_imp\\mean_free_path',mean_free_path)
+np.save(os.path.join('results_diff_imp','spl_r_off'),spl_r_off)
+np.save(os.path.join('results_diff_imp','spl_r_off_diff'),spl_r_off_diff)
+np.save(os.path.join('results_diff_imp','spl_rec_x_t0'),spl_rec_x_t0)
+np.save(os.path.join('results_diff_imp','spl_stat_x_t0'),spl_stat_x_t0)
+np.save(os.path.join('results_diff_imp','spl_rec_x_t0_correction'),spl_rec_x_t0_correction)
+np.save(os.path.join('results_diff_imp','spl_rec_35dB'),spl_rec_35dB)
+np.save(os.path.join('results_diff_imp','D_th'),D_th)
+np.save(os.path.join('results_diff_imp','alpha'),alpha_1)
+np.save(os.path.join('results_diff_imp','c0'),c0)
+np.save(os.path.join('results_diff_imp','RT_Sabine'),RT_Sabine)
+np.save(os.path.join('results_diff_imp','x_axis'),x)
+np.save(os.path.join('results_diff_imp','t_off'),t[idx_w_rec:])
+np.save(os.path.join('results_diff_imp','length.npy'),length)
+np.save(os.path.join('results_diff_imp','width.npy'),width)
+np.save(os.path.join('results_diff_imp','height.npy'),height)
+np.save(os.path.join('results_diff_imp','x_source.npy'),x_source)
+np.save(os.path.join('results_diff_imp','y_source.npy'),y_source)
+np.save(os.path.join('results_diff_imp','z_source.npy'),z_source)
+np.save(os.path.join('results_diff_imp','x_rec.npy'),x_rec)
+np.save(os.path.join('results_diff_imp','y_rec.npy'),y_rec)
+np.save(os.path.join('results_diff_imp','z_rec.npy'),z_rec)
+np.save(os.path.join('results_diff_imp','mean_free_path'),mean_free_path)

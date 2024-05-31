@@ -42,18 +42,18 @@ def edt_decay(t, sch_db, idx_w_rec):
         
     y_axis = (slope*t[idx_w_rec:] + intercept) + slope
 
-    plt.figure(4)
-    plt.plot(t[idx_w_rec:],sch_db, color ='b', linewidth = 1.8)
-    plt.plot(t[idx_w_rec:],y_axis,color='r',linewidth=2)
-    plt.plot(t[idx_w_rec:][idxL1],np.real(sch_db[idxL1]),'o',linewidth=2)
-    plt.plot(t[idx_w_rec:][idxL2],np.real(sch_db[idxL2]),'o',linewidth=2)
-    plt.axvline(x=edt,ymin=-100,ymax=0,linestyle='--',linewidth=2)
-    plt.ylabel('Normalized Magnitude (dB)')
-    plt.xlabel('Time (s)')
-    plt.legend(['EDC','Line Fitting','Upper Point','Lower Point','Estimate EDT'])
-    plt.title("Figure 4: 'EDT = ' + str(round(edt,2)) + ' s.'")
-    plt.grid(True)
-    plt.ylim([-100,0])
+    # plt.figure(4)
+    # plt.plot(t[idx_w_rec:],sch_db, color ='b', linewidth = 1.8)
+    # plt.plot(t[idx_w_rec:],y_axis,color='r',linewidth=2)
+    # plt.plot(t[idx_w_rec:][idxL1],np.real(sch_db[idxL1]),'o',linewidth=2)
+    # plt.plot(t[idx_w_rec:][idxL2],np.real(sch_db[idxL2]),'o',linewidth=2)
+    # plt.axvline(x=edt,ymin=-100,ymax=0,linestyle='--',linewidth=2)
+    # plt.ylabel('Normalized Magnitude (dB)')
+    # plt.xlabel('Time (s)')
+    # plt.legend(['EDC','Line Fitting','Upper Point','Lower Point','Estimate EDT'])
+    # plt.title("Figure 4: 'EDT = ' + str(round(edt,2)) + ' s.'")
+    # plt.grid(True)
+    # plt.ylim([-100,0])
     #plt.show()
     
     return edt
