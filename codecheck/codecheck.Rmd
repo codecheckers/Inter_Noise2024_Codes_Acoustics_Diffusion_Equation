@@ -209,8 +209,9 @@ for(i in c(1:nrow(manifest_df))) {
 ## Acknowledgements
 
 Thank you to the Ilaria for her patience whilst this codecheck was
-being performed.  We would like to acknowledge NWO for funding.
-<!-- check what exactly to put in cert -->
+being performed.  We would like to acknowledge NWO for funding the
+CHECK-NL project, and enabling the initial workshop at Delft.
+
 
 # Citing this document
 
