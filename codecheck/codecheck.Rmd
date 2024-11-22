@@ -81,6 +81,27 @@ file that needs to contain data is ROOT/results_rad_imp with the other
 two folders (ROOT/results_diff_imp and ROOT/results_opt_imp) starting
 as empty directories.
 
+## Installation
+
+Matlab 2024b was available; we needed to install the npy-matlab
+package
+
+```
+cd ~/proj/2020/codecheckers/Inter_Noise2024_Codes_Acoustics_Diffusion_Equation
+
+gh repo clone kwikteam/npy-matlab
+
+start matlab and then
+
+addpath('/Users/stephen/proj/2020/codecheckers/Inter_Noise2024_Codes_Acoustics_Diffusion_Equation/npy-matlab/npy-matlab')  
+savepath
+```
+
+
+
+## Running
+
+
 Perhaps the most challenging thing was to work out how to make the
 parameter settings required to generate each figure.  The approach herer was
 to come up with a set of versions of the original script
@@ -187,9 +208,9 @@ for(i in c(1:nrow(manifest_df))) {
 
 ## Acknowledgements
 
-I would like to thank Dr Bhatt and his team for promptly answering any
-queries I had with this reproduction.  CODECHECK is financially
-supported by the Mozilla foundation.
+Thank you to the Ilaria for her patience whilst this codecheck was
+being performed.  We would like to acknowledge NWO for funding.
+<!-- check what exactly to put in cert -->
 
 # Citing this document
 
@@ -223,23 +244,3 @@ rmarkdown::render("codecheck.Rmd", output_format = "pdf_document")
 ```
 
 
-Notes
-
-cd ~/proj/2020/codecheckers/Inter_Noise2024_Codes_Acoustics_Diffusion_Equation
-
-gh repo clone kwikteam/npy-matlab
-
-start matlab and then
-
-addpath('/Users/stephen/proj/2020/codecheckers/Inter_Noise2024_Codes_Acoustics_Diffusion_Equation/npy-matlab/npy-matlab')  
-savepath
-
-
-Run 2: for figures 2
-
-
-Run 3: for figure 3
-
-Run 4: for figure 4
-
-Run 5: for figure 7
