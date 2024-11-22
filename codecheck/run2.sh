@@ -30,13 +30,15 @@ python 1-DiffEq3D.py
 ## Step 7,8 - run
 python 2-DiffEq3D-WithLoop.py
 
-## Step 9-11 - ignore for this parameters setting
+## Step 9-11 
 
+python 3-OptimizationDx.py
+python 4-DiffEq3DWithNewDx.py
 
 date
 
 ## Step 12 - prepare to make figures
 
-matlab  -nodesktop -nosplash -r "A_ComparisonRadiosityDiffusionAfterOpt.m"
+matlab  -nodesktop -nosplash -r "A_ComparisonRadiosityDiffusionAfterOpt"
 
 
