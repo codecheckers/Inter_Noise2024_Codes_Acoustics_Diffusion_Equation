@@ -53,6 +53,7 @@ codechecker:
   - name: Dingding Xie
   - name: Huiqing Wang
   - name: Mareike Wendelmuth
+    ORCID: 0009-0008-5638-1670
 
 summary: >
   This project was a collection of python scripts for computation,
@@ -60,5 +61,5 @@ summary: >
 repository: https://github.com/codecheckers/Inter_Noise2024_Codes_Acoustics_Diffusion_Equation
 check_time: "2024-11-22 10:00:00"
 certificate: 2024-017
-report: https://doi.org/10.5281/zenodo.FIXME
+report: https://doi.org/10.5281/zenodo.14211707
 
