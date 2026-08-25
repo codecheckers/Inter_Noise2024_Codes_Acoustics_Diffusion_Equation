@@ -13,7 +13,8 @@ paper:
     - name: Maarten Hornikx
       ORCID: 0000-0002-8343-6613
 
-  reference: https://pure.tue.nl/ws/portalfiles/portal/339520759/IN_2024_3491.pdf
+  reference: https://doi.org/10.3397/IN_2024_3491
+  # open PDF: https://pure.tue.nl/ws/portalfiles/portal/339520759/IN_2024_3491.pdf
 
 manifest:
   - file: codecheck/figs/codecheck-fig1a.png
